@@ -1,0 +1,16 @@
+
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: hsl(0 0% 4%);
+  scrollbar-width: none;
+}
+html::-webkit-scrollbar, body::-webkit-scrollbar {
+  display: none; /* Chrome, Safari */
+}
+
+.particle-canvas {
+  position: fixed;
+
+}
