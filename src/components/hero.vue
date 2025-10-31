@@ -15,7 +15,7 @@
                 <div class="location">Based in Odense • DK</div>
             </div>
         </div>
-        <div class="description my-4">I’m a web developer who focuses on frontend and UI/UX design. I pay attention to details and enjoy solving problems with code and design.</div>
+        <div class="description my-4">I'm a web developer who focuses on frontend and UI/UX design. I pay attention to details and enjoy solving problems with code and design.</div>
     </div>
 </template>
 

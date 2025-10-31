@@ -6,8 +6,9 @@
             <div class="row justify-content-center">
                 <div v-for="project in projects" :key="project.id">
                     <div class="project-card">
+                    
                         <div class="img-wrapper" :style="project.id === hoveredId ? { backgroundColor: project.hoverColor } : {}" @mouseenter="hoveredId = project.id" @mouseleave="hoveredId = null">
-                            <img :src="project.image" :alt="project.title" />
+                            <SafariMock class="mockup" :src="project.image" :url="project.url" :alt="project.title" />
                         </div>
                     </div>
                     <div class="card-details mb-5">
@@ -31,6 +32,7 @@ import ParticleBackground from '../components/particleBackground.vue'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { faGithub } from '@fortawesome/free-brands-svg-icons'
 import { faGlobe } from '@fortawesome/free-solid-svg-icons'
+import SafariMock from '../components/SafariMock.vue'
 
 const hoveredId = ref(null)
 </script>
@@ -54,7 +56,6 @@ const hoveredId = ref(null)
     justify-content: center;
     align-items: center;
     width: 100%;
-    height: 500px;
 }
 .img-wrapper::after {
     content: "";
@@ -70,17 +71,13 @@ const hoveredId = ref(null)
     text-align: center;
 }
 
-.img-wrapper img {
-    border-radius: 8px;
-    position: relative;
+.mockup {
     width: 94%;
-    height: 500px;
-    object-fit: cover;
     transform: translateY(24px);
     z-index: 1;   
     transition: transform 0.6s ease-in-out;
 }
-.img-wrapper img:hover {
+.mockup:hover {
     transform: translateY(12px);
 }
 

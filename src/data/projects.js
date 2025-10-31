@@ -1,7 +1,7 @@
 import islandImg from '../assets/images/projects/island.png'
 import todoImg from '../assets/images/projects/todo.jpg'
 import biezyImg from '../assets/images/projects/biezy.png'
-import portfolioImg from '../assets/images/projects/modernportfolio.jpg'
+import modernImg from '../assets/images/projects/modern.png'
 
 export const projects = [
   {
@@ -15,7 +15,7 @@ export const projects = [
   {
     id: 2,
     title: 'Todo App',
-    description: 'A simple todo app built with vue.js and mongoDB and mongoose. for myself. I intent to make this Todo app an website in the future. making it possible for others to use. It was a quick refreash of the usage of MongoDB and learning mongoose.',
+    description: "A simple todo app built with vue.js and mongoDB and mongoose. for myself. I intent to make this Todo app an website in the future. making it possible for others to use. It was a quick refreash of the usage of MongoDB and learning mongoose.",
     image: todoImg,
     source: 'https://github.com/Nikolaihoej/Todo-list',
     hoverColor: 'rgb(83, 127, 156)'
@@ -23,7 +23,7 @@ export const projects = [
   {
     id: 3,
     title: 'Creative Personal Portfolio',
-    description: 'Creative portfolio made before the modern one. Built with Vue.js.',
+    description: "This is the third portfolio website I've created. I initially struggled to find a design that I liked and that stood out, but felt too simple, so I upgraded. This static portfolio is built with Vue.js and hosted on Firebase. It features a creative island theme with vibrant colors and engaging visuals to showcase my socials and github projects.",
     image: islandImg,
     link: 'https://niko-portfolio-2cf3b.web.app/',
     source: 'https://github.com/Nikolaihoej/webPortfolio',
@@ -32,10 +32,10 @@ export const projects = [
 
     {
     id: 4,
-    title: 'This Portfolio',
-    description: 'A modern portfolio site built with Vue and Bootstrap.',
-    image: portfolioImg,
-    source: 'https://github.com/Nikolaihoej/webPortfolio',
+    title: 'Modern portfolio',
+    description: "A modern portfolio site built with Vue.js and Bootstrap. This is my latest portfolio website, featuring a clean and contemporary design to effectively showcase my projects and skills. It is fully responsive and reflects my personal style.",
+    image: modernImg,
+    source: 'https://github.com/Nikolaihoej/modern-portfolio',
     hoverColor: 'rgb(156, 83, 83)'
   },
 
