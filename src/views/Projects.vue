@@ -8,7 +8,7 @@
                     <div class="project-card">
                     
                         <div class="img-wrapper" :style="project.id === hoveredId ? { backgroundColor: project.hoverColor } : {}" @mouseenter="hoveredId = project.id" @mouseleave="hoveredId = null">
-                            <SafariMock class="mockup" :src="project.image" :url="project.url" :alt="project.title" />
+                            <safariMock class="mockup" :src="project.image" :url="project.url" :alt="project.title" />
                         </div>
                     </div>
                     <div class="card-details mb-5">
@@ -29,10 +29,10 @@
 import { ref } from 'vue'
 import { projects } from '../data/projects.js'
 import ParticleBackground from '../components/particleBackground.vue'
+import safariMock from '../components/safariMock.vue'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { faGithub } from '@fortawesome/free-brands-svg-icons'
 import { faGlobe } from '@fortawesome/free-solid-svg-icons'
-import SafariMock from '../components/SafariMock.vue'
 
 const hoveredId = ref(null)
 </script>
@@ -44,7 +44,7 @@ const hoveredId = ref(null)
 }
 .project-card {
     position: relative;
-    background: #282a30;
+    background: #262626;
     border-radius: 16px;
     overflow: hidden;
     transition: box-shadow 0.3s;
@@ -75,7 +75,7 @@ const hoveredId = ref(null)
     width: 94%;
     transform: translateY(24px);
     z-index: 1;   
-    transition: transform 0.6s ease-in-out;
+    transition: transform 0.3s ease-in-out;
 }
 .mockup:hover {
     transform: translateY(12px);
@@ -121,7 +121,6 @@ const hoveredId = ref(null)
     background: #1e1e1e;
     border: 1px solid #2a2a2a;
     color: #fff;
-
 }
 .btn-source:hover {
     background: #4a4a4a;

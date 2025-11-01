@@ -1,7 +1,7 @@
 <template>
     <div class="container custom-container my-4">
         <div class="row d-flex align-items-center">
-            <div class="image col-auto" style="position: relative; width: 108px; height: 108px;" @mouseenter="handleHover" @mouseleave="handleLeave">
+            <div class="image col-auto" style="position: relative; width: 108px; height: 108px;" @mouseenter="handleHover" @mouseleave="handleLeave" @click="handleHover">
                 <svg class="profile-border" width="100" height="100" style="position: absolute; overflow: visible;">
                     <circle cx="50" cy="50" r="46" stroke="#1aaa61" stroke-width="20" :stroke-dashoffset="borderOffset" stroke-dasharray="289" style="transition: stroke-dashoffset 0.6s ease-in-out;"/>
                 </svg>

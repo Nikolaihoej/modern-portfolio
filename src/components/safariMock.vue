@@ -68,7 +68,7 @@
   </svg>
 </template>
 
-<script setup lang="ts">
+<script setup>
 defineProps({
   url: String,
   src: String
