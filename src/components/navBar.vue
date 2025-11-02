@@ -4,16 +4,16 @@
             <div class="logo"><router-link to="/">NHJ</router-link></div>
             <nav class="d-flex align-items-center gap-3">
                 <router-link to="/projects">Projects</router-link>
-                <a href="https://github.com/Nikolaihoej" target="_blank" rel="noopener">
+                <a href="https://github.com/Nikolaihoej" target="_blank" rel="noopener" aria-label="GitHub">
                     <FontAwesomeIcon :icon="faGithub" />
                 </a>
-                <a href="https://www.linkedin.com/in/nikolai-jensen-472577195/" target="_blank" rel="noopener">
+                <a href="https://www.linkedin.com/in/nikolai-jensen-472577195/" target="_blank" rel="noopener" aria-label="LinkedIn">
                     <FontAwesomeIcon :icon="faLinkedin" />
                 </a>
-                <a href="mailto:nikolaihoj@gmail.com" target="_blank" rel="noopener">
+                <a href="mailto:nikolaihoj@gmail.com" target="_blank" rel="noopener" aria-label="Email">
                     <FontAwesomeIcon :icon="faEnvelope" />
                 </a>
-                <button class="p-0" @click="toggleTheme">
+                <button class="p-0" @click="toggleTheme" aria-label="Toggle Theme">
                     <FontAwesomeIcon :icon="isDark ? faSun : faMoon" />
                 </button>
             </nav>
