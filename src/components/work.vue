@@ -62,7 +62,7 @@ const currentTimeline = computed(() =>
 
 .timeline-container {
   background: var(--content-bg-dark);
-  border-radius: 12px;
+  border-radius: 8px;
   color: var(--text-dark);
 }
 .light .timeline-container {

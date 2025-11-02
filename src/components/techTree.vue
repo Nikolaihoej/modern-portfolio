@@ -41,7 +41,7 @@ const techStack = [
 .stack-card {
   background: var(--content-bg-dark);
   border: 1px solid var(--border-dark);
-  border-radius: 12px;
+  border-radius: 8px;
   text-align: center;
   transition: all 0.3s ease;
 }

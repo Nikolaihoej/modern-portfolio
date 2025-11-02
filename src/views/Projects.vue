@@ -51,7 +51,7 @@ const hoveredId = ref(null)
 .project-card {
     position: relative;
     background: var(--content-bg-dark);
-    border-radius: 16px;
+    border-radius: 8px;
     overflow: hidden;
     transition: box-shadow 0.3s;
 }

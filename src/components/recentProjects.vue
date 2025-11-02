@@ -49,7 +49,7 @@ const recentProjects = projects.slice(0, 2)
 .project-card {
     background: var(--content-bg-dark);
     border: 1px solid var(--border-dark);
-    border-radius: 16px;
+    border-radius: 8px;
     overflow: hidden;
     transition: all 0.3s ease;
     height: 100%;
@@ -80,7 +80,7 @@ const recentProjects = projects.slice(0, 2)
     width: 100%;
     height: 200px;
     object-fit: cover;
-    border-radius: 12px;
+    border-radius: 8px;
     display: block;
     border: 1px solid var(--border-dark);
 }
