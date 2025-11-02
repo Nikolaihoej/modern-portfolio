@@ -1,10 +1,8 @@
-
-
 html, body {
   margin: 0;
   padding: 0;
-  background: hsl(0 0% 4%);
   scrollbar-width: none;
+  font-family: 'Inter', sans-serif;
 }
 html::-webkit-scrollbar, body::-webkit-scrollbar {
   display: none; /* Chrome, Safari */
@@ -12,5 +10,40 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
 
 .particle-canvas {
   position: fixed;
+}
 
+:root {
+  /*background colors*/
+  --bg-dark: #0a0a0a;
+  --bg-light: #FAFAFA;
+  /*content backgrounds*/
+  --content-bg-dark: #1A1A1A;
+  --content-bg-light: #E5E5E5;
+  /*text colors*/
+  --text-dark: #FAFAFA;
+  --text-dark-secondary: #AAAAAA;
+  --text-light: #0A0A0A;
+  --text-light-secondary: #737373;
+  /*border colors*/
+  --border-dark: #2A2A2A;
+  --border-dark-hover: #3A3A3A;
+  --border-light: #D4D4D4;
+  --border-light-hover: #C4C4C4;
+  /*background gradients*/
+  --bg-gradient-dark: linear-gradient(180deg, rgb(26, 44, 37, 0.74) 0%, rgba(0, 0, 0, 0) 30%);
+  --bg-gradient-light: linear-gradient(180deg,rgba(108, 162, 196, 0.74) 0%, rgba(28, 39, 45, 0) 60%);
+}
+
+#app {
+  background-color: var(--bg-dark);
+  background-image: var(--bg-gradient-dark);
+  color: var(--text-dark);
+  font-family: 'Inter', sans-serif;
+}
+
+/* Light theme overrides */
+.light #app {
+  background-color: var(--bg-light);
+  background-image: var(--bg-gradient-light);
+  color: var(--text-light);
 }

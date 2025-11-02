@@ -8,9 +8,8 @@
                 <img class="profile-img" :src="filled ? meGlassesImg : meImg" alt="Hero Image" style="position: relative; z-index: 1;" />
             </div>
             <div class="details col text-left ms-3">
-                <div class="title-container d-flex align-items-center gap-2">
-                    <h2 class="title">Hey! I'm Nikolai</h2>
-                    <span class="surfer-hand d-flex text-center">🤙</span>
+                <div class="title-container">
+                    <h2 class="title">Hey! I'm Nikolai <span class="surfer-hand" :class="{ animated: handAnimating }" @click="animateHand" @mouseenter="animateHand">🤙🏼</span></h2>
                 </div>
                 <div class="location">Based in Odense • DK</div>
             </div>
@@ -70,6 +69,15 @@ function handleLeave() {
         animating.value = false;
     }
 }
+
+const handAnimating = ref(false)
+
+function animateHand() {
+    handAnimating.value = true
+    setTimeout(() => {
+        handAnimating.value = false
+    }, 800) // match animation duration
+}
 </script>
 
 <style scoped>
@@ -88,12 +96,12 @@ function handleLeave() {
 }
 
 .surfer-hand {
-    font-size: 1.5rem;
     display: inline-block;
     transition: transform 0.3s;
     cursor: pointer;
+    rotate: 300deg;
 }
-.surfer-hand:hover {
+.surfer-hand.animated {
     animation: surfer-gesture 0.8s cubic-bezier(.68,-0.55,.27,1.55) both;
 }
 

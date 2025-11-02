@@ -33,31 +33,42 @@ const recentProjects = projects.slice(0, 2)
 }
 
 .section-title {
-    background: #2a2a2a;
-    color: #fff;
+    background: var(--border-dark);
+    color: var(--text-dark);
     padding: 12px 24px;
     border-radius: 8px;
     font-size: 16px;
     font-weight: 500;
     display: inline-block;
 }
+.light .section-title {
+    background: var(--border-light);
+    color: var(--text-light);
+}
 
 .project-card {
-    background: #1a1a1a;
-    border: 1px solid #2a2a2a;
+    background: var(--content-bg-dark);
+    border: 1px solid var(--border-dark);
     border-radius: 16px;
     overflow: hidden;
     transition: all 0.3s ease;
     height: 100%;
 }
+.light .project-card {
+    background: var(--content-bg-light);
+    border: 1px solid var(--border-light);
+}
 
 .project-card:hover {
     transform: translateY(-4px);
-    border-color: #3a3a3a;
+    border-color: var(--border-dark-hover);
     box-shadow: 
         0 0 30px rgba(255, 255, 255, 0.1),
         0 0 60px rgba(255, 255, 255, 0.05),
         0 10px 30px rgba(0, 0, 0, 0.5);
+}
+.light .project-card:hover {
+    border-color: var(--border-light-hover);
 }
 
 .img-wrapper {
@@ -71,7 +82,10 @@ const recentProjects = projects.slice(0, 2)
     object-fit: cover;
     border-radius: 12px;
     display: block;
-    border: 1px solid #2a2a2a;
+    border: 1px solid var(--border-dark);
+}
+.light .img-wrapper img {
+    border: 1px solid var(--border-light);
 }
 
 .card-details {
@@ -79,14 +93,17 @@ const recentProjects = projects.slice(0, 2)
 }
 
 .card-title {
-    color: #fff;
+    color: var(--text-dark);
     font-size: 24px;
     font-weight: 600;
     margin-bottom: 12px;
 }
+.light .card-title {
+    color: var(--text-light);
+}
 
 .card-text {
-    color: #aaa;
+    color: var(--text-dark-secondary);
     font-size: 16px;
     line-height: 1.6;
     margin: 0;
@@ -94,18 +111,26 @@ const recentProjects = projects.slice(0, 2)
     overflow: hidden;  
     text-overflow: ellipsis;
 }
+.light .card-text {
+    color: var(--text-light-secondary);
+}
 
 .more-projects {
-    color: #fff;
+    color: var(--text-dark);
     font-size: 18px;
     font-weight: 500;
     text-decoration: none;
     display: inline-block;
     transition: all 0.3s ease;
 }
-
+.light .more-projects {
+    color: var(--text-light);
+}
 .more-projects:hover {
-    color: #ddd;
+    color: var(--text-dark-secondary);
     transform: translateX(4px);
+}
+.light .more-projects:hover {
+    color: var(--text-light-secondary);
 }
 </style>

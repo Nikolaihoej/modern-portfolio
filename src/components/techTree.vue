@@ -39,28 +39,42 @@ const techStack = [
 }
 
 .stack-card {
-  background: #1a1a1a;
-  border: 1px solid #2a2a2a;
+  background: var(--content-bg-dark);
+  border: 1px solid var(--border-dark);
   border-radius: 12px;
   padding: 20px 10px;
   text-align: center;
   transition: all 0.3s ease;
   height: 100%;
 }
+.light .stack-card {
+  background: var(--content-bg-light);
+  border: 1px solid var(--border-light);
+}
 .stack-card:hover {
-  border-color: #3a3a3a;
+  border-color: var(--border-dark-hover);
   transform: translateY(-4px);
-  background: #222;
+  background: var(--border-dark-hover);
+}
+.light .stack-card:hover {
+  border-color: var(--border-light-hover);
+  background: var(--border-light-hover);
 }
 .stack-icon {
   font-size: 48px;
   margin-bottom: 20px;
-  color: #fff;
+  color: var(--text-dark);
+}
+.light .stack-icon {
+  color: var(--text-light);
 }
 .stack-title {
   font-size: 18px;
   font-weight: 600;
-  color: #ccc;
+  color: var(--text-dark-secondary);
   margin: 0;
+}
+.light .stack-title {
+  color: var(--text-light-secondary);
 }
 </style>

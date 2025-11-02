@@ -1,5 +1,5 @@
 <template>
-	<div class="container custom-container mb-5">
+	<div class="container custom-container pb-5">
 		<h2 class="section-title">Work</h2>
 		<div class="row justify-content-center">
 			<div class="col">
@@ -44,119 +44,152 @@ const currentTimeline = computed(() =>
     max-width: 800px;
     margin-left: auto;
     margin-right: auto;
-    height: 500px;
 }
 
 .section-title {
-    background: #2a2a2a;
-    color: #fff;
+    background: var(--border-dark);
+    color: var(--text-dark);
     padding: 12px 24px;
     border-radius: 8px;
     font-size: 16px;
     font-weight: 500;
     display: inline-block;
 }
+.light .section-title {
+    background: var(--border-light);
+    color: var(--text-light);
+}
 
 .timeline-container {
-  background: #2b2b2b;
+  background: var(--content-bg-dark);
   border-radius: 12px;
-  color: #fff;
+  color: var(--text-dark);
+}
+.light .timeline-container {
+  background: var(--content-bg-light);
+  color: var(--text-light);
 }
 
 .tabs {
-	display: flex;
-	margin-bottom: 10px;
-	background: #3a3a3a;
-	border-radius: 8px;
-	overflow: hidden;
+    display: flex;
+    margin-bottom: 10px;
+    background: var(--border-dark-hover);
+    border-radius: 8px;
+    overflow: hidden;
+}
+.light .tabs {
+    background: var(--border-light-hover);
 }
 .tab:hover {
-	background: #4a4a4a;  
+    background: var(--border-dark-hover);  
+}
+.light .tab:hover {
+    background: var(--border-light-hover);
 }
 
 .tab {
-	flex: 1;
-	text-align: center;
-	padding: 10px 0;
-	cursor: pointer;
-	color: #aaa;
-	transition: 0.3s;
+    flex: 1;
+    text-align: center;
+    padding: 10px 0;
+    cursor: pointer;
+    color: var(--text-dark-secondary);
+    transition: 0.3s;
+}
+.light .tab {
+    color: var(--text-light-secondary);
 }
 
 .tab.active {
-	background: #1e1e1e;
-	color: #fff;
-	font-weight: 600;
+    background: var(--content-bg-dark);
+    color: var(--text-dark);
+    font-weight: 600;
+}
+.light .tab.active {
+    background: var(--content-bg-light);
+    color: var(--text-light);
 }
 
 .timeline {
-	position: relative;
-	margin-left: 20px;
-	padding: 20px 0;
+    position: relative;
+    margin-left: 20px;
+    padding: 20px 0;
 }
 
 .timeline::before {
-	content: "";
-	position: absolute;
-	left: 20px;
-	top: 10px;
-	bottom: 0;
-	width: 2px;
-	background: #555;
+    content: "";
+    position: absolute;
+    left: 20px;
+    top: 10px;
+    bottom: 0;
+    width: 2px;
+    background: var(--border-dark-hover);
+}
+.light .timeline::before {
+    background: var(--border-light-hover);
 }
 
 .timeline-item {
-	position: relative;
-	padding-left: 60px;
-	margin-bottom: 30px;
+    position: relative;
+    padding-left: 60px;
+    margin-bottom: 30px;
 }
 
 .timeline-item:last-child {
-	margin-bottom: 0;
+    margin-bottom: 0;
 }
 
 .timeline-icon {
-	position: absolute;
-	left: -10px;
-	width: 60px;
-	height: 60px;
-	border-radius: 50%;
-	background: #1e1e1e;
-	border: 2px solid #fff;
-	display: flex;
-	justify-content: center;
-	align-items: center;
+    position: absolute;
+    left: -10px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: var(--content-bg-dark);
+    border: 2px solid var(--border-dark);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.light .timeline-icon {
+    background: var(--content-bg-light);
+    border: 2px solid var(--border-light);
 }
 .timeline-img {
-	width: 100%;
-	height: 100%;
-	object-fit: cover;
-	border-radius: 50%;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
 }
 
 .timeline-date {
-	font-size: 12px;
-	color: #ccc;
+    font-size: 12px;
+    color: var(--text-dark-secondary);
+}
+.light .timeline-date {
+    color: var(--text-light-secondary);
 }
 
 .timeline-company {
-	font-weight: 600;
-	margin: 3px 0;
+    font-weight: 600;
+    margin: 3px 0;
 }
 
 .timeline-role {
-	font-size: 13px;
-	padding-right: 10px;
-	color: #aaa;
+    font-size: 13px;
+    padding-right: 10px;
+    color: var(--text-dark-secondary);
+}
+.light .timeline-role {
+    color: var(--text-light-secondary);
 }
 
 .fade-enter-active, .fade-leave-active {
-	transition: opacity 0.3s;
+    transition: opacity 0.3s;
 }
 .fade-enter-from, .fade-leave-to {
-	opacity: 0;
+    opacity: 0;
 }
 .fade-enter-to, .fade-leave-from {
-	opacity: 1;
+    opacity: 1;
 }
 </style>

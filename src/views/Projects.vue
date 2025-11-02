@@ -15,8 +15,13 @@
                         <h3 class="card-title">{{ project.title }}</h3>
                         <p class="card-text">{{ project.description }}</p>
                         <div class="card-actions">
-                            <a v-if="project.source" :href="project.source" target="_blank" class="btn btn-source"> <FontAwesomeIcon :icon="faGithub" class="me-2" /> Source</a>
-                            <a v-if="project.link" :href="project.link" target="_blank" class="btn btn-visit"> <FontAwesomeIcon :icon="faGlobe" class="me-2" /> Visit</a>
+                            <projectBtn v-if="project.source" :href="project.source" target="_blank">
+                                <FontAwesomeIcon :icon="faGithub" class="me-1" /> Source
+                            </projectBtn>
+
+                            <projectBtn v-if="project.link" :href="project.link" target="_blank">
+                                <FontAwesomeIcon :icon="faGlobe" class="me-1" /> Visit
+                            </projectBtn>
                         </div>
                     </div>
                 </div>
@@ -33,38 +38,48 @@ import safariMock from '../components/safariMock.vue'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { faGithub } from '@fortawesome/free-brands-svg-icons'
 import { faGlobe } from '@fortawesome/free-solid-svg-icons'
+import projectBtn from '../components/projectBtn.vue'
 
 const hoveredId = ref(null)
 </script>
 
 <style scoped>
-
 .custom-container {
     max-width: 800px;
 }
+
 .project-card {
     position: relative;
-    background: #262626;
+    background: var(--content-bg-dark);
     border-radius: 16px;
     overflow: hidden;
     transition: box-shadow 0.3s;
 }
+.light .project-card {
+    background: var(--content-bg-light);
+}
 
 .img-wrapper {
-    background: linear-gradient(360deg,hsl(0 0% 4%) 29%, rgba(0, 0, 0, 0) 100%);
+    background: linear-gradient(360deg, var(--bg-dark) 29%, rgba(0, 0, 0, 0) 100%);
     display: flex;
     justify-content: center;
     align-items: center;
     width: 100%;
 }
+.light .img-wrapper {
+    background: linear-gradient(360deg, var(--bg-light) 29%, rgba(255,255,255,0) 100%);
+}
 .img-wrapper::after {
     content: "";
     position: absolute;
     width: 100%;
-    height: 100%; /* covers the image area */
-    background: linear-gradient(360deg,hsl(0 0% 4%) 12%, rgba(0, 0, 0, 0.1) 80%);
+    height: 100%;
+    background: linear-gradient(360deg, var(--bg-dark) 12%, rgba(0, 0, 0, 0.1) 80%);
     z-index: 2;
     pointer-events: none;
+}
+.light .img-wrapper::after {
+    background: linear-gradient(360deg, var(--bg-light) 12%, rgba(255,255,255,0.1) 80%);
 }
 
 .img-wrapper:hover {
@@ -87,53 +102,26 @@ const hoveredId = ref(null)
 }
 
 .card-title {
-    color: #fff;
+    color: var(--text-dark);
     font-size: 2rem;
     font-weight: 700;
     margin-bottom: 12px;
 }
+.light .card-title {
+    color: var(--text-light);
+}
 
 .card-text {
-    color: #bdbdbd;
+    color: var(--text-dark-secondary);
     font-size: 1.1rem;
     margin-bottom: 24px;
+}
+.light .card-text {
+    color: var(--text-light-secondary);
 }
 
 .card-actions {
     display: flex;
     gap: 8px;
-}
-
-.btn {
-    display: flex;
-    align-items: center;
-    padding: 12px 24px;
-    border-radius: 8px;
-    font-size: 1rem;
-    font-weight: 500;
-    text-decoration: none;
-    border: none;
-    cursor: pointer;
-    transition: background 0.2s, color 0.2s;
-}
-
-.btn-source {
-    background: #1e1e1e;
-    border: 1px solid #2a2a2a;
-    color: #fff;
-}
-.btn-source:hover {
-    background: #4a4a4a;
-    color: #fff;
-}
-
-.btn-visit {
-    background: #1e1e1e;
-    border: 1px solid #2a2a2a;
-    color: #fff;
-}
-.btn-visit:hover {
-    background: #4a4a4a;
-    color: #fff;
 }
 </style>
