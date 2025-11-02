@@ -3,11 +3,36 @@
 </template>
 
 <script setup>
-import { onMounted, onBeforeUnmount } from 'vue'
+import { ref, onMounted, onBeforeUnmount } from 'vue'
 
 let canvas, ctx, animationId
 const particlesArray = []
 const particleCount = 50
+
+const isLight = ref(document.body.classList.contains('light'))
+
+let observer
+onMounted(() => {
+  observer = new MutationObserver(() => {
+    isLight.value = document.body.classList.contains('light')
+  })
+  observer.observe(document.body, { attributes: true, attributeFilter: ['class'] })
+
+  canvas = document.getElementById('particleCanvas')
+  ctx = canvas.getContext('2d')
+  resizeCanvas()
+  window.addEventListener('resize', resizeCanvas)
+  for (let i = 0; i < particleCount; i++) {
+    particlesArray.push(new Particle())
+  }
+  animate()
+})
+
+onBeforeUnmount(() => {
+  window.removeEventListener('resize', resizeCanvas)
+  cancelAnimationFrame(animationId)
+  if (observer) observer.disconnect()
+})
 
 class Particle {
   constructor() {
@@ -29,7 +54,10 @@ class Particle {
     }
   }
   draw() {
-    ctx.fillStyle = `rgba(255,255,255,${this.opacity})`
+    const color = isLight.value
+      ? `rgba(162,200,255,${this.opacity})`
+      : `rgba(255,255,255,${this.opacity})`
+    ctx.fillStyle = color
     ctx.beginPath()
     ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2)
     ctx.closePath()
@@ -50,22 +78,6 @@ function animate() {
     particlesArray[i].draw()
   }
 }
-
-onMounted(() => {
-  canvas = document.getElementById('particleCanvas')
-  ctx = canvas.getContext('2d')
-  resizeCanvas()
-  window.addEventListener('resize', resizeCanvas)
-  for (let i = 0; i < particleCount; i++) {
-    particlesArray.push(new Particle())
-  }
-  animate()
-})
-
-onBeforeUnmount(() => {
-  window.removeEventListener('resize', resizeCanvas)
-  cancelAnimationFrame(animationId)
-})
 </script>
 
 <style>

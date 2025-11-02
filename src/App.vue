@@ -18,7 +18,6 @@ import navBar from './components/navBar.vue'
     z-index: 1;
 }
 
-
 .fade-enter-active, .fade-leave-active {
     transition: opacity 0.5s;
 }

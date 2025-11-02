@@ -1,8 +1,8 @@
 <template>
   <div class="container custom-container mb-5">
-    <div class="row g-3 justify-content-center">
-      <div v-for="tech in techStack" :key="tech.title" class="col-6 col-md-4 col-lg-3">
-        <div class="stack-card h-100">
+    <div class="row g-3 justify-content-start">
+      <div v-for="tech in techStack" :key="tech.title" class="col-4 col-md-4 col-lg-2">
+        <div class="stack-card">
           <div class="stack-icon">
             <FontAwesomeIcon :icon="tech.icon" />
           </div>
@@ -15,18 +15,19 @@
 
 <script setup>
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { faVuejs, faHtml5, faCss3Alt, faJs, faNodeJs, faFigma } from '@fortawesome/free-brands-svg-icons'
+import { faVuejs, faHtml5, faCss3Alt, faJs, faNodeJs, faFigma, faWordpress } from '@fortawesome/free-brands-svg-icons'
 import { faLeaf, faDatabase } from '@fortawesome/free-solid-svg-icons'
 
 const techStack = [
   { icon: faVuejs, title: 'Vue.js' },
-  { icon: faHtml5, title: 'HTML 5' },
-  { icon: faCss3Alt, title: 'CSS' },
   { icon: faJs, title: 'JavaScript' },
+  { icon: faCss3Alt, title: 'CSS' },
+  { icon: faHtml5, title: 'HTML 5' },
   { icon: faFigma, title: 'Figma' },
-  { icon: faLeaf, title: 'MongoDB' },
   { icon: faNodeJs, title: 'Node.js' },
+  { icon: faLeaf, title: 'MongoDB' },
   { icon: faDatabase, title: 'SQL' },
+  { icon: faWordpress, title: 'WordPress' },
 ];
 </script>
 
@@ -42,7 +43,6 @@ const techStack = [
   background: var(--content-bg-dark);
   border: 1px solid var(--border-dark);
   border-radius: 12px;
-  padding: 20px 10px;
   text-align: center;
   transition: all 0.3s ease;
   height: 100%;
@@ -62,7 +62,6 @@ const techStack = [
 }
 .stack-icon {
   font-size: 48px;
-  margin-bottom: 20px;
   color: var(--text-dark);
 }
 .light .stack-icon {
@@ -72,7 +71,6 @@ const techStack = [
   font-size: 18px;
   font-weight: 600;
   color: var(--text-dark-secondary);
-  margin: 0;
 }
 .light .stack-title {
   color: var(--text-light-secondary);
