@@ -1,8 +1,8 @@
 <template>
   <div class="container custom-container mb-5">
-    <div class="row g-3 justify-content-start">
-      <div v-for="tech in techStack" :key="tech.title" class="col-4 col-md-4 col-lg-2">
-        <div class="stack-card">
+    <div class="row g-2 justify-content-center">
+      <div v-for="tech in techStack" :key="tech.title" class="col-3 d-flex">
+        <div class="stack-card flex-fill">
           <div class="stack-icon">
             <FontAwesomeIcon :icon="tech.icon" />
           </div>
@@ -15,7 +15,7 @@
 
 <script setup>
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { faVuejs, faHtml5, faCss3Alt, faJs, faNodeJs, faFigma, faWordpress } from '@fortawesome/free-brands-svg-icons'
+import { faVuejs, faHtml5, faCss3Alt, faJs, faNodeJs, faFigma } from '@fortawesome/free-brands-svg-icons'
 import { faLeaf, faDatabase } from '@fortawesome/free-solid-svg-icons'
 
 const techStack = [
@@ -27,7 +27,6 @@ const techStack = [
   { icon: faNodeJs, title: 'Node.js' },
   { icon: faLeaf, title: 'MongoDB' },
   { icon: faDatabase, title: 'SQL' },
-  { icon: faWordpress, title: 'WordPress' },
 ];
 </script>
 
@@ -45,7 +44,6 @@ const techStack = [
   border-radius: 12px;
   text-align: center;
   transition: all 0.3s ease;
-  height: 100%;
 }
 .light .stack-card {
   background: var(--content-bg-light);
@@ -61,18 +59,25 @@ const techStack = [
   background: var(--border-light-hover);
 }
 .stack-icon {
-  font-size: 48px;
+  font-size: 34px;
   color: var(--text-dark);
+
 }
 .light .stack-icon {
   color: var(--text-light);
 }
 .stack-title {
-  font-size: 18px;
-  font-weight: 600;
+  font-size: 16px;
+  font-weight: 500;
   color: var(--text-dark-secondary);
 }
 .light .stack-title {
   color: var(--text-light-secondary);
+}
+
+@media (max-width: 600px) {
+  .stack-title {
+    display: none;
+  }
 }
 </style>
