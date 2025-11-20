@@ -1,6 +1,8 @@
 <template>
-    <div class="btn btn-project" v-bind="$attrs">
-        <slot></slot>
+    <div class="btn btn-project">
+        <a v-bind="$attrs">
+            <slot></slot>
+        </a>
     </div>
 </template>
 
@@ -10,6 +12,11 @@
     background: var(--content-bg-dark);
     border: 1px solid var(--border-dark);
     color: var(--text-dark);
+}
+
+.btn-project a {
+    text-decoration: none;
+    color: inherit;
 }
 .light .btn-project {
     background: var(--content-bg-light);

@@ -28,7 +28,6 @@
 
 <script setup>
 import { ref, computed } from "vue";
-
 import { educationTimeline } from "@/data/education.js";
 import { workTimeline } from '../data/work.js'
 
