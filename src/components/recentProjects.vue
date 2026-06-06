@@ -1,19 +1,23 @@
 <template>
     <div class="container custom-container mb-5">
         <h2 class="section-title">Recent projects</h2>
+
         <div class="row justify-content-center">
             <div v-for="project in recentProjects" :key="project.id" class="col-md-6 mb-4">
-                <div class="project-card">
-                    <div class="img-wrapper">
-                        <img :src="project.image" :alt="project.title">
+                <router-link :to="`/projects`" class="project-link">
+                    <div class="project-card">
+                        <div class="img-wrapper">
+                            <img :src="project.image" :alt="project.title">
+                        </div>
+                        <div class="card-details">
+                            <h3 class="card-title">{{ project.title }}</h3>
+                            <p class="card-text">{{ project.description }}</p>
+                        </div>
                     </div>
-                    <div class="card-details">
-                        <h3 class="card-title">{{ project.title }}</h3>
-                        <p class="card-text">{{ project.description }}</p>
-                    </div>
-                </div>
+                </router-link>
             </div>
         </div>
+
         <router-link to="/projects" class="more-projects mb-4">More projects →</router-link>
     </div>
 </template>
@@ -69,6 +73,11 @@ const recentProjects = projects.slice(0, 2)
 }
 .light .project-card:hover {
     border-color: var(--border-light-hover);
+}
+
+.project-link {
+    text-decoration: none;
+    color: inherit;
 }
 
 .img-wrapper {

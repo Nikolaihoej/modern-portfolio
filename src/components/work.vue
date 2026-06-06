@@ -1,29 +1,29 @@
 <template>
-	<div class="container custom-container pb-5">
-		<h2 class="section-title">Work</h2>
-		<div class="row justify-content-center">
-			<div class="col">
-				<div class="tabs">
-					<div class="tab" :class="{ active: activeTab === 'work' }" @click="activeTab = 'work'">Work</div>
-					<div class="tab" :class="{ active: activeTab === 'education' }" @click="activeTab = 'education'">Education</div>
-				</div>
-				<div class="timeline-container">
-					<Transition name="fade" mode="out-in">
-						<div class="timeline" :key="activeTab">
-							<div v-for="(item, index) in currentTimeline" :key="index" class="timeline-item">
-								<div class="timeline-icon">
-									<img :src="item.icon" alt="Company Logo" class="timeline-img" />
-								</div>
-								<div class="timeline-date">{{ item.date }}</div>
-								<div class="timeline-company">{{ item.company }}</div>
-								<div class="timeline-role">{{ item.role }}</div>
-							</div>
-						</div>
-					</Transition>
-				</div>
-			</div>
-		</div>
-	</div>
+    <div class="container custom-container pb-5">
+        <h2 class="section-title">{{ sectionTitle }}</h2>
+        <div class="row justify-content-center">
+            <div class="col">
+                <div class="tabs">
+                    <div class="tab" :class="{ active: activeTab === 'work' }" @click="activeTab = 'work'">Work</div>
+                    <div class="tab" :class="{ active: activeTab === 'education' }" @click="activeTab = 'education'">Education</div>
+                </div>
+                <div class="timeline-container">
+                    <Transition name="fade" mode="out-in">
+                        <div class="timeline" :key="activeTab">
+                            <div v-for="(item, index) in currentTimeline" :key="index" class="timeline-item">
+                                <div class="timeline-icon">
+                                    <img :src="item.icon" alt="Company Logo" class="timeline-img" />
+                                </div>
+                                <div class="timeline-date">{{ item.date }}</div>
+                                <div class="timeline-company">{{ item.company }}</div>
+                                <div class="timeline-role">{{ item.role }}</div>
+                            </div>
+                        </div>
+                    </Transition>
+                </div>
+            </div>
+        </div>
+    </div>
 </template>
 
 <script setup>
@@ -31,7 +31,11 @@ import { ref, computed } from "vue";
 import { educationTimeline } from "@/data/education.js";
 import { workTimeline } from '../data/work.js'
 
-const activeTab = ref("work"); // Start with "work"
+const activeTab = ref("work");
+
+const sectionTitle = computed(() =>
+  activeTab.value === "work" ? "Work" : "Education"
+);
 
 const currentTimeline = computed(() =>
   activeTab.value === "work" ? workTimeline : educationTimeline
