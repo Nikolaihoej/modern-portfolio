@@ -20,7 +20,7 @@
                     </div>
                     <div class="card-details mb-5">
                         <h3 class="card-title">{{ project.title }}</h3>
-                        <p class="card-text">{{ project.description }}</p>
+                        <p class="card-text" v-html="project.description"></p>
                         <div class="card-actions">
                             <projectBtn v-if="project.source" 
                                 :href="project.source" 
