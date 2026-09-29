@@ -16,6 +16,9 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
 }
 
 :root {
+  /* fælles bredde for navbar, sektioner og projekthjulet */
+  --container-max: 1200px;
+
   --bg-dark: #0a0a0a;
   --bg-light: #FAFAFA;
   --content-bg-dark: #1A1A1A;

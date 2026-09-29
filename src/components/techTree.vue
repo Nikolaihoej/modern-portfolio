@@ -32,7 +32,7 @@ const techStack = [
 
 <style scoped>
 .custom-container {
-    max-width: 800px;
+    max-width: var(--container-max);
     margin-left: auto;
     margin-right: auto;
     cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='36' viewBox='0 0 24 24'><circle cx='12' cy='12' r='9' fill='%23FFF' stroke='%23FFF' stroke-width='0.25'/></svg>") 12 18, auto;
@@ -42,6 +42,7 @@ const techStack = [
   background: var(--content-bg-dark);
   border: 1px solid var(--border-dark);
   border-radius: 8px;
+  padding: 24px;
   text-align: center;
   transition: all 0.3s ease;
 }
@@ -78,6 +79,10 @@ const techStack = [
 @media (max-width: 600px) {
   .stack-title {
     display: none;
+  }
+
+  .stack-card {
+    padding: 8px;
   }
 }
 </style>

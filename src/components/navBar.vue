@@ -42,7 +42,7 @@ onMounted(() => {
 
 <style scoped>
 .custom-container {
-    max-width: 800px;
+    max-width: var(--container-max);
     margin-left: auto;
     margin-right: auto;
 }

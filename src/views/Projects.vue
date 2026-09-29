@@ -1,63 +1,22 @@
 <template>
     <div>
         <ParticleBackground />
-        <div class="container custom-container">
-            <h2 class="section-title mb-4 mt-5">Projects</h2>
-            <div class="row justify-content-center">
-                <div v-for="project in projects" :key="project.id">
-                    <div class="project-card">
-                        <div class="img-wrapper" 
-                            :style="project.id === hoveredId ? { backgroundColor: project.hoverColor } : {}" 
-                            @mouseenter="hoveredId = project.id" 
-                            @mouseleave="hoveredId = null">
-                            <safariMock 
-                                class="mockup" 
-                                :src="project.image" 
-                                :url="project.url" 
-                                :alt="project.title" 
-                            />
-                        </div>
-                    </div>
-                    <div class="card-details mb-5">
-                        <h3 class="card-title">{{ project.title }}</h3>
-                        <p class="card-text" v-html="project.description"></p>
-                        <div class="card-actions">
-                            <projectBtn v-if="project.source" 
-                                :href="project.source" 
-                                target="_blank"
-                            >
-                                <FontAwesomeIcon :icon="faGithub" class="me-1" /> Source
-                            </projectBtn>
-                            <projectBtn v-if="project.link" 
-                                :href="project.link" 
-                                target="_blank"
-                            >
-                                <FontAwesomeIcon :icon="faGlobe" class="me-1" /> Visit
-                            </projectBtn>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <ProjectWheel :projects="projects" />
+        <Footer />
     </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
 import { projects } from '../data/projects.js'
 import ParticleBackground from '../components/particleBackground.vue'
-import safariMock from '../components/safariMock.vue'
-import projectBtn from '../components/projectBtn.vue'
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { faGithub } from '@fortawesome/free-brands-svg-icons'
-import { faGlobe } from '@fortawesome/free-solid-svg-icons'
+import ProjectWheel from '../components/projectWheel.vue'
+import Footer from '../components/Footer.vue'
 
-const hoveredId = ref(null)
 </script>
 
 <style scoped>
 .custom-container {
-    max-width: 800px;
+    max-width: var(--container-max);
 }
 
 .project-card {

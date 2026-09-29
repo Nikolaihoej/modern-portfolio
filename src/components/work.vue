@@ -44,7 +44,7 @@ const currentTimeline = computed(() =>
 
 <style scoped>
 .custom-container {
-    max-width: 800px;
+    max-width: var(--container-max);
     margin-left: auto;
     margin-right: auto;
 }
@@ -57,6 +57,7 @@ const currentTimeline = computed(() =>
     font-size: 16px;
     font-weight: 500;
     display: inline-block;
+    margin-bottom: 16px;
 }
 .light .section-title {
     background: var(--border-light);

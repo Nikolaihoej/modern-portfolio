@@ -11,10 +11,17 @@
                 <div class="title-container">
                     <h2 class="title">Hey! I'm Nikolai <span class="surfer-hand" :class="{ animated: handAnimating }" @click="animateHand" @mouseenter="animateHand">🤙🏼</span></h2>
                 </div>
-                <div class="location">Based in Odense • DK</div>
+                <div class="location">
+                    <div>Based in Odense • DK</div>
+                    <div class="work-status">
+                        <span class="pulse-dot" aria-hidden="true"></span>
+                            Currently working at
+                        <a class="location-link" href="https://næmt.nu" target="_blank" rel="noopener">næmt.nu</a>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="description my-4">I'm a web developer who focuses on frontend and UI/UX design. I pay attention to details and enjoy solving problems with code and design.</div>
+        <div class="description my-4"><h3>I'm a web developer who focuses on frontend and UI/UX design. I pay attention to details and enjoy solving problems with code and design.</h3></div>
     </div>
 </template>
 
@@ -90,7 +97,7 @@ function animateHand() {
 }
 
 .custom-container {
-    max-width: 800px;
+    max-width: var(--container-max);
     margin-left: auto;
     margin-right: auto;
 }
@@ -105,6 +112,24 @@ function animateHand() {
     animation: surfer-gesture 0.8s cubic-bezier(.68,-0.55,.27,1.55) both;
 }
 
+
+.location { 
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.location-link {
+    color: inherit;
+    text-decoration: none;
+    font-weight: bold;
+    opacity: 0.5;
+    transition: opacity 0.3s;
+}
+.location-link:hover {
+    opacity: 1;
+}
+
 @keyframes surfer-gesture {
     0%   { transform: rotate(0deg); }
     20%  { transform: rotate(-30deg); }
@@ -114,5 +139,30 @@ function animateHand() {
     100% { transform: rotate(0deg); }
 }
 
+
+.work-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.pulse-dot {
+    width: 8px;
+    height: 8px;
+    flex: 0 0 8px;
+    border-radius: 50%;
+    background: #1aaa61;
+    box-shadow: 0 0 0 0 rgb(26 170 97 / 60%);
+    animation: pulse 1.8s infinite;
+}
+
+@keyframes pulse {
+    70% {
+        box-shadow: 0 0 0 6px rgb(26 170 97 / 0%);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgb(26 170 97 / 0%);
+    }
+}
 
 </style>
