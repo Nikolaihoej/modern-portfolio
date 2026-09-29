@@ -5,7 +5,7 @@
         <techTree />
         <RecentProjects />
         <work />
-        <Footer />
+        <footer />
     </div>
 </template>
 
@@ -15,5 +15,5 @@ import hero from '../components/hero.vue'
 import techTree from '../components/techTree.vue'
 import RecentProjects from '../components/recentProjects.vue'
 import work from '../components/work.vue'
-import Footer from '../components/Footer.vue'
+import footer from '../components/footer.vue'
 </script>
