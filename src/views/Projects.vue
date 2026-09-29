@@ -2,7 +2,7 @@
     <div>
         <ParticleBackground />
         <ProjectWheel :projects="projects" />
-        <footer />
+        <Footer />
     </div>
 </template>
 
@@ -10,7 +10,7 @@
 import { projects } from '../data/projects.js'
 import ParticleBackground from '../components/particleBackground.vue'
 import ProjectWheel from '../components/projectWheel.vue'
-import footer from '../components/footer.vue'
+import Footer from '../components/footer.vue'
 
 </script>
 
