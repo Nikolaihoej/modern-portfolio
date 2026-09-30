@@ -266,7 +266,7 @@ function drawText(text, x, y) {
   ctx.fillStyle = colors.ink
   ctx.textAlign = 'center'
   ctx.textBaseline = 'top'
-  ctx.font = '10px "Press Start 2P", monospace'
+  ctx.font = '8px "Press Start 2P", monospace'
   ctx.fillText(text, x, y)
 }
 

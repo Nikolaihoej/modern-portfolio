@@ -74,7 +74,7 @@ html body.light {
 #app {
   --glow-color: rgba(26, 44, 37, 0.74);          /* green */
   background-color: var(--app-bg);
-  background-image: linear-gradient(180deg, var(--glow-color) 0%, rgba(0, 0, 0, 0) 400px);
+  background-image: linear-gradient(180deg, var(--glow-color) 0%, rgba(0, 0, 0, 0) 220px); /* short glow – just behind the navbar */
   color: var(--app-text);
   font-family: 'Inter', sans-serif;
   transition: --glow-color 3s ease; /* a slow, gentle shift */

@@ -1,5 +1,5 @@
 <template>
-    <div class="container custom-container my-4">
+    <div class="container custom-container hero mb-4">
         <div class="row d-flex align-items-center">
             <div class="image col-auto" @mouseenter="handleHover" @mouseleave="handleLeave" @click="handleHover">
                 <!-- the size is set once with --avatar-size (see the CSS) – ring and image follow it -->
@@ -138,6 +138,11 @@ function animateHand() {
     height: 100%;
     border-radius: 50%;
     object-fit: cover;
+}
+
+.hero {
+    position: relative;
+    z-index: 2; /* above the game's gradient */
 }
 
 .custom-container {
