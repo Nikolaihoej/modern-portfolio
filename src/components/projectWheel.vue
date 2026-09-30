@@ -45,7 +45,7 @@
         </div>
       </div>
       <p class="pw-lead">
-        Websites I’ve designed for real clients - <strong><h2>The projects are designed at my workplace næmt.nu</h2></strong> Click a project to visit the live site, or drag to spin the wheel.
+        Websites I’ve designed for real clients - <strong>The projects are designed at my workplace næmt.nu</strong> Click a project to visit the live site, or drag to spin the wheel.
       </p>
     </div>
   </section>
