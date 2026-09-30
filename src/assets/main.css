@@ -8,6 +8,19 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
   display: none; /* Chrome, Safari */
 }
 
+/* What you see when a phone "bounces" past the top or bottom of the page.
+   Bootstrap makes <body> white, so the bounce showed white – now it's the page colour.
+   ("html body" is used so this wins over Bootstrap, which is loaded after this file.) */
+html,
+html body {
+  background-color: var(--bg-dark);
+  overscroll-behavior-y: none; /* no rubber-band scrolling past the footer / above the top */
+}
+html:has(body.light),
+html body.light {
+  background-color: var(--bg-light);
+}
+
 #app.no-gradient,
 .light #app.no-gradient { background-image: none; }
 
