@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NHJ Footer Preview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+<style>
+  /* Same tokens as src/assets/main.css in modernportfolio */
+  :root{
+    --bg-dark:#0a0a0a; --bg-light:#fafafa;
+    --content-bg-dark:#1a1a1a; --content-bg-light:#e5e5e5;
+    --text-dark:#fafafa; --text-dark-secondary:#aaaaaa;
+    --text-light:#0a0a0a; --text-light-secondary:#737373;
+    --border-dark:#2a2a2a; --border-dark-hover:#3a3a3a;
+    --border-light:#d4d4d4; --border-light-hover:#c4c4c4;
+    --accent:#1aaa61;                 /* the green from the profile ring in hero.vue */
+    --container-max:1200px;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{font-family:Inter,system-ui,sans-serif;background:var(--bg-dark);color:var(--text-dark);-webkit-font-smoothing:antialiased}
+  body.light{background:var(--bg-light);color:var(--text-light)}
+
+  /* ---------- preview-only chrome ---------- */
+  .preview-bar{position:sticky;top:0;z-index:10;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px 16px;background:rgba(10,10,10,.85);backdrop-filter:blur(6px);border-bottom:1px solid var(--border-dark);font-size:13px;color:var(--text-dark-secondary)}
+  .light .preview-bar{background:rgba(250,250,250,.85);border-color:var(--border-light);color:var(--text-light-secondary)}
+  .preview-bar button{font:inherit;font-weight:500;color:inherit;background:var(--content-bg-dark);border:1px solid var(--border-dark);border-radius:8px;padding:6px 12px;cursor:pointer}
+  .light .preview-bar button{background:var(--content-bg-light);border-color:var(--border-light)}
+  .page-stub{max-width:var(--container-max);margin:0 auto;padding:80px 12px 40px;color:var(--text-dark-secondary);font-size:14px;text-align:center}
+  .light .page-stub{color:var(--text-light-secondary)}
+  .page-stub div{height:220px;border:1px dashed var(--border-dark);border-radius:8px;display:grid;place-items:center}
+  .light .page-stub div{border-color:var(--border-light)}
+
+  /* ================================================================
+     FOOTER  – what would become components/siteFooter.vue
+     ================================================================ */
+  .site-footer{
+    --f-surface:var(--content-bg-dark);
+    --f-border:var(--border-dark);
+    --f-border-hover:var(--border-dark-hover);
+    --f-text:var(--text-dark);
+    --f-text-2:var(--text-dark-secondary);
+    margin-top:80px;
+    padding:0 12px 28px;
+    color:var(--f-text);
+  }
+  .light .site-footer{
+    --f-surface:var(--content-bg-light);
+    --f-border:var(--border-light);
+    --f-border-hover:var(--border-light-hover);
+    --f-text:var(--text-light);
+    --f-text-2:var(--text-light-secondary);
+  }
+  .footer-inner{max-width:var(--container-max);margin:0 auto}
+
+  /* 1 — contact card (the last call to action) */
+  .footer-cta{
+    display:grid;grid-template-columns:1fr auto;align-items:end;gap:32px;
+    background:var(--f-surface);border:1px solid var(--f-border);border-radius:8px;
+    padding:40px;
+  }
+  .section-title{display:inline-block;background:var(--f-border);color:var(--f-text);padding:10px 20px;border-radius:8px;font-size:15px;font-weight:500;margin:0 0 20px}
+  .footer-cta h2{margin:0;font-size:clamp(28px,3.2vw,44px);line-height:1.08;letter-spacing:-.03em;font-weight:600;text-wrap:balance}
+  .cta-text{margin:14px 0 0;color:var(--f-text-2);font-size:16px;line-height:1.6;max-width:46ch}
+  .status{display:inline-flex;align-items:center;gap:8px;margin-top:22px;font-size:14px;color:var(--f-text-2)}
+  .status .dot{width:8px;height:8px;border-radius:50%;background:var(--accent)}
+  .status a{color:var(--f-text);text-decoration:none;border-bottom:1px solid var(--f-border-hover)}
+  .status a:hover{border-color:var(--f-text)}
+
+  .cta-actions{display:flex;flex-direction:column;align-items:stretch;gap:10px;min-width:280px}
+  /* email is put together by JavaScript, so it never appears in the page source,
+     and it can't be selected/copied as text */
+  .email-display{
+    display:flex;align-items:center;gap:10px;
+    background:var(--bg-dark);border:1px solid var(--f-border);border-radius:8px;padding:12px 16px;
+    font-size:15px;color:var(--f-text);
+    user-select:none;-webkit-user-select:none;
+  }
+  .light .email-display{background:var(--bg-light)}
+  .email-display svg{width:16px;height:16px;flex:none;color:var(--f-text-2)}
+  .email-display span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    font:inherit;font-size:15px;font-weight:500;text-decoration:none;cursor:pointer;
+    border-radius:8px;padding:12px 18px;border:1px solid transparent;
+    transition:transform .3s,box-shadow .3s,border-color .3s,background .3s;
+  }
+  .btn-primary{background:var(--f-text);color:var(--bg-dark)}
+  .light .btn-primary{color:var(--bg-light)}
+  .btn-primary:hover{transform:translateY(-3px);box-shadow:0 0 30px rgba(255,255,255,.1),0 10px 30px rgba(0,0,0,.5)}
+  .btn:focus-visible,.footer-links a:focus-visible,.to-top:focus-visible,.status a:focus-visible{outline:2px solid var(--f-text);outline-offset:3px}
+
+  /* 2 — columns */
+  .footer-grid{
+    display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:32px;
+    padding:48px 4px 40px;
+  }
+  .brand{font-size:32px;font-weight:700;letter-spacing:-.02em;line-height:1;margin:0 0 14px}
+  .about-text{margin:0;color:var(--f-text-2);font-size:15px;line-height:1.6;max-width:34ch}
+  .col-title{margin:0 0 14px;font-size:13px;font-weight:500;color:var(--f-text-2);letter-spacing:.04em;text-transform:uppercase}
+  .footer-links{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+  .footer-links a{display:inline-flex;align-items:center;gap:10px;color:var(--f-text);text-decoration:none;font-size:15px;transition:color .2s}
+  .footer-links a svg{width:16px;height:16px;color:var(--f-text-2);transition:color .2s,transform .2s}
+  .footer-links a:hover svg{color:var(--f-text);transform:translateY(-1px)}
+  .footer-links a .ext{width:11px;height:11px;opacity:0;transform:translate(-4px,2px);transition:opacity .2s,transform .2s}
+  .footer-links a:hover .ext{opacity:1;transform:none}
+  .clock{font-size:28px;font-weight:600;letter-spacing:-.02em;font-variant-numeric:tabular-nums;line-height:1;margin:0 0 8px;color:var(--f-text)}
+  .clock-sub{margin:0;font-size:14px;color:var(--f-text-2)}
+
+  /* 3 — bottom bar */
+  .footer-bottom{
+    display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;
+    border-top:1px solid var(--f-border);padding:20px 4px 0;
+    font-size:14px;color:var(--f-text-2);
+  }
+  .footer-bottom span + span::before{content:"•";margin:0 10px;opacity:.6}
+  .to-top{
+    display:inline-flex;align-items:center;gap:10px;background:none;border:none;padding:0;
+    font:inherit;color:var(--f-text-2);cursor:pointer;transition:color .2s;
+  }
+  .to-top:hover{color:var(--f-text)}
+  .to-top .arrow{
+    display:grid;place-items:center;width:32px;height:32px;border-radius:50%;
+    background:var(--f-surface);border:1px solid var(--f-border);color:var(--f-text);
+    transition:border-color .3s,transform .3s;
+  }
+  .to-top .arrow svg{width:14px;height:14px;transition:transform .3s}
+  .to-top:hover .arrow{border-color:var(--f-border-hover)}
+  .to-top:hover .arrow svg{transform:translateY(-2px)}
+
+  @media (max-width:860px){
+    .footer-cta{grid-template-columns:1fr;padding:28px;align-items:start}
+    .cta-actions{min-width:0}
+    .footer-grid{grid-template-columns:1fr 1fr;gap:28px 20px}
+    .footer-grid .about{grid-column:1 / -1}
+  }
+  @media (max-width:480px){
+    .footer-cta{padding:22px}
+    .footer-bottom{flex-direction:column;align-items:flex-start}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .to-top .arrow svg{transition:none}
+  }
+</style>
+</head>
+<body>
+
+<div class="preview-bar">
+  <span>Footer preview · not added to your project yet</span>
+  <button type="button" id="themeBtn">Switch to light</button>
+</div>
+
+<div class="page-stub"><div>…rest of the page (hero, tech, projects, work)…</div></div>
+
+<!-- ================= FOOTER ================= -->
+<footer class="site-footer">
+  <div class="footer-inner">
+
+    <!-- 1. Contact card -->
+    <section class="footer-cta" id="contact" aria-labelledby="footerCtaTitle">
+      <div>
+        <p class="section-title">Contact</p>
+        <h2 id="footerCtaTitle">Have a project in mind?</h2>
+        <p class="cta-text">I design and build websites that are easy to use and good to look at. Send me a line and let’s talk about what you’re building.</p>
+        <div class="status"><span class="dot" aria-hidden="true"></span>Currently designing at <a href="https://naemt.nu" target="_blank" rel="noopener">næmt.nu</a></div>
+      </div>
+      <div class="cta-actions">
+        <div class="email-display">
+          <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="1.5" y="3" width="13" height="10" rx="1.5" stroke="currentColor" stroke-width="1.5"/><path d="m2 4 6 4.5L14 4" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+          <span data-email>Loading email…</span>
+        </div>
+        <a class="btn btn-primary" href="#contact" data-mailto>Send me an email
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10m-4-4 4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+    </section>
+
+    <!-- 2. Columns -->
+    <div class="footer-grid">
+      <div class="about">
+        <p class="brand">NHJ</p>
+        <p class="about-text">Web developer focused on frontend and UI/UX design. Based in Odense, Denmark.</p>
+      </div>
+
+      <nav aria-label="Footer">
+        <p class="col-title">Pages</p>
+        <ul class="footer-links">
+          <li><a href="/">Home</a></li>
+          <li><a href="/projects">Projects</a></li>
+        </ul>
+      </nav>
+
+      <div>
+        <p class="col-title">Elsewhere</p>
+        <ul class="footer-links">
+          <li><a href="https://github.com/Nikolaihoej" target="_blank" rel="noopener">
+            <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+            GitHub <svg class="ext" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M3.5 8.5l5-5M4.5 3.5h4v4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+          <li><a href="https://www.linkedin.com/in/nikolai-jensen-472577195/" target="_blank" rel="noopener">
+            <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M0 1.15C0 .52.52 0 1.18 0h13.64C15.48 0 16 .52 16 1.15v13.7c0 .63-.52 1.15-1.18 1.15H1.18C.52 16 0 15.48 0 14.85V1.15ZM4.94 13.4V6.17h-2.4v7.23h2.4ZM3.74 5.18c.84 0 1.36-.56 1.36-1.26-.02-.71-.52-1.25-1.34-1.25-.82 0-1.36.54-1.36 1.25 0 .7.52 1.26 1.33 1.26h.01Zm4.91 8.22V9.36c0-.22.02-.43.08-.59.18-.43.57-.88 1.23-.88.87 0 1.22.66 1.22 1.64v3.87h2.4V9.26c0-2.22-1.18-3.25-2.76-3.25-1.27 0-1.84.7-2.16 1.19v.03h-.02l.02-.03V6.17h-2.4c.03.68 0 7.23 0 7.23h2.4Z"/></svg>
+            LinkedIn <svg class="ext" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M3.5 8.5l5-5M4.5 3.5h4v4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></a></li>
+          <li><a href="#contact" data-mailto>
+            <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="1.5" y="3" width="13" height="10" rx="1.5" stroke="currentColor" stroke-width="1.5"/><path d="m2 4 6 4.5L14 4" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+            Email</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <p class="col-title">Local time</p>
+        <p class="clock" id="clock">--:--</p>
+        <p class="clock-sub" id="clockSub">Odense, Denmark</p>
+      </div>
+    </div>
+
+    <!-- 3. Bottom bar -->
+    <div class="footer-bottom">
+      <div><span>© <span id="year">2026</span> NHJ</span></div>
+      <button type="button" class="to-top" id="toTop">Back to top
+        <span class="arrow" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none"><path d="M8 13V3m-4.5 4.5L8 3l4.5 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      </button>
+    </div>
+
+  </div>
+</footer>
+
+<script>
+  // Spam protection: the address is split into parts and only put together here,
+  // so bots that read the HTML never see a complete email or a mailto: link.
+  const EMAIL = ['nikolaihoj', 'gmail', 'com']
+  const email = () => `${EMAIL[0]}@${EMAIL[1]}.${EMAIL[2]}`
+
+  document.querySelectorAll('[data-email]').forEach((el) => { el.textContent = email() })
+  document.querySelectorAll('[data-mailto]').forEach((el) => {
+    el.addEventListener('click', (e) => {
+      e.preventDefault()
+      window.location.href = `mailto:${email()}` // link is only created when someone clicks
+    })
+  })
+
+  // Live clock in Odense (Europe/Copenhagen)
+  function tick() {
+    const now = new Date();
+    document.getElementById('clock').textContent = new Intl.DateTimeFormat('en-GB', { hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Copenhagen' }).format(now);
+    const tz = new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/Copenhagen', timeZoneName: 'short' }).formatToParts(now).find(p => p.type === 'timeZoneName').value;
+    document.getElementById('clockSub').textContent = `Odense, Denmark · ${tz}`;
+  }
+  tick(); setInterval(tick, 15000);
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // Back to top
+  document.getElementById('toTop').addEventListener('click', () => window.scrollTo({ top: 0, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }));
+
+  // Preview-only theme switch (your navBar toggles .light on <body> the same way)
+  const themeBtn = document.getElementById('themeBtn');
+  themeBtn.addEventListener('click', () => {
+    const light = document.body.classList.toggle('light');
+    themeBtn.textContent = light ? 'Switch to dark' : 'Switch to light';
+  });
+</script>
+</body>
+</html>

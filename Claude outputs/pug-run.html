@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pug Run</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#535353;       /* the grey used for everything in the offline game */
+    --ink-soft:#757575;
+    --cloud:#d6d6d6;
+    --paper:#ffffff;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{background:var(--paper);color:var(--ink);font-family:Inter,system-ui,sans-serif;min-height:100vh;display:grid;place-items:center;padding:24px 16px}
+  .wrap{width:min(100%,900px)}
+  .game{position:relative;width:100%;aspect-ratio:600/150;touch-action:manipulation;cursor:pointer;-webkit-tap-highlight-color:transparent}
+  canvas{display:block;width:100%;height:100%;image-rendering:pixelated;image-rendering:crisp-edges}
+  .game:focus-visible{outline:2px solid var(--ink);outline-offset:6px;border-radius:4px}
+  .help{margin:22px 0 0;display:flex;flex-wrap:wrap;gap:8px 22px;font-size:14px;color:var(--ink-soft)}
+  kbd{font-family:inherit;font-size:12px;font-weight:600;color:var(--ink);border:1px solid #d4d4d4;border-bottom-width:2px;border-radius:4px;padding:2px 6px;margin-right:6px;background:#fafafa}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="game" id="game" tabindex="0" role="application" aria-label="Pug Run – an endless runner. Press space or tap to jump.">
+    <canvas id="c" width="600" height="150"></canvas>
+  </div>
+  <div class="help">
+    <span><kbd>Space</kbd><kbd>↑</kbd>Jump</span>
+    <span><kbd>↓</kbd>Duck</span>
+    <span>On a phone: tap to jump</span>
+  </div>
+</div>
+
+<script>
+/* =================== sprites (my own pixel art) =================== */
+const SPRITES = {"pug":{"a":[".........................","..............##...##....","...###.......###.######..","..#...#......##..##.###..",".#.##.#......##.###..####","..#.##.........##########","...##...####..##########.",".....################....","...#####################.","..###################.#..","..##################.....","...#################.....","...############.##.......","...##..#####.##.##.......","...##..##....##.##.......","...##...##...##..##......","..###.......###.........."],"b":[".........................","..............##...##....","...###.......###.######..","..#...#......##..##.###..",".#.##.#......##.###..####","..#.##.........##########","...##...####..##########.",".....################....","...#####################.","..###################.#..","..##################.....","...#################.....","....##############.......","....########..####.......","....####......####.......",".....###.......###.......",".....###........###......"],"jump":[".........................","..............##...##....","...###.......###.######..","..#...#......##..##.###..",".#.##.#......##.###..####","..#.##.........##########","...##...####..##########.",".....################....","...#####################.","..###################.#..","..##################.....","...#################.....","...################......","...###.#####.######......","...###.......###........."],"dead":[".........................","..............##...##....","...###.......###.######..","..#...#......##..#.#.##..",".#.##.#......##.###.#####","..#.##.........###.#.####","...##...####..##########.",".....################....","...#####################.","..###################.#..","..##################.....","...#################.....","...############.##.......","...##..#####.##.##.......","...##..##....##.##.......","...##...##...##..##......","..###.......###.........."],"duck_a":[".............................","..................###..##....",".................###.#####...","..##.............##..##.#####",".#..#..#########.##.###..####","...###############.#########.","..#######################....","..##########################.","...######################.#..","...##..##########..##........","...##...##.....##..##........","...##....##....##...##.......","..###.........###............"],"duck_b":[".............................","..................###..##....",".................###.#####...","..##.............##..##.#####",".#..#..#########.##.###..####","...###############.#########.","..#######################....","..##########################.","...######################.#..","....################.........","....####........####.........",".....###.........###.........",".....###..........###........"]},"hydrant":["....####....","...######...","...######...","..########..",".##########.","..########..","..##.##.##..","..########..","############","####.##.####","############","..########..","..#.####.#..","..########..","..########..","..#.####.#..","..########..","..########..",".##########.","############"],"small":["...####...","..######..",".########.","..######..","##########","###.##.###","##########","..######..","..#.##.#..","..######..","..######..",".########.","##########"],"bird_a":["....###............",".....###...........","......###..........",".......####........","##......####..##...",".##############.##.","################..#",".....##########...."],"bird_b":["##............##...",".##############.##.","################..#",".....##########....","........####.......",".......####........","......###..........",".....###..........."],"cloud":["..........######............","........##......##..........",".......#..........#.........",".....##............##.......","....#................###....","..##....................#...",".#.......................#..","#.........................#.","############################"]};
+const INK = '#535353', CLOUD = '#d6d6d6';
+const PX = 2;                              // every sprite pixel = 2 game pixels
+
+// turn "##.." rows into small canvases once, so drawing is cheap
+function bake(rows, color) {
+  const c = document.createElement('canvas');
+  c.width = rows[0].length * PX; c.height = rows.length * PX;
+  const g = c.getContext('2d'); g.fillStyle = color;
+  rows.forEach((r, y) => { for (let x = 0; x < r.length; x++) if (r[x] === '#') g.fillRect(x * PX, y * PX, PX, PX); });
+  return c;
+}
+const IMG = {
+  run: [bake(SPRITES.pug.a, INK), bake(SPRITES.pug.b, INK)],
+  jump: bake(SPRITES.pug.jump, INK),
+  dead: bake(SPRITES.pug.dead, INK),
+  duck: [bake(SPRITES.pug.duck_a, INK), bake(SPRITES.pug.duck_b, INK)],
+  hydrant: bake(SPRITES.hydrant, INK),
+  small: bake(SPRITES.small, INK),
+  bird: [bake(SPRITES.bird_a, INK), bake(SPRITES.bird_b, INK)],
+  cloud: bake(SPRITES.cloud, CLOUD),
+};
+
+/* =================== setup =================== */
+const W = 600, H = 150, GROUND = 131;       // GROUND = where the pug's feet are
+const canvas = document.getElementById('c');
+const ctx = canvas.getContext('2d');
+const box = document.getElementById('game');
+
+function fitCanvas() {                       // sharp pixels on retina screens
+  const dpr = Math.min(3, window.devicePixelRatio || 1);
+  const scale = Math.max(1, Math.round((box.clientWidth / W) * dpr));
+  canvas.width = W * scale; canvas.height = H * scale;
+  ctx.setTransform(scale, 0, 0, scale, 0, 0);
+  ctx.imageSmoothingEnabled = false;
+}
+fitCanvas();
+addEventListener('resize', fitCanvas);
+
+/* =================== game state =================== */
+const START_SPEED = 6, MAX_SPEED = 13, ACCEL = 0.0012;
+const GRAVITY = 0.6, JUMP_VELOCITY = -10.5;
+
+let state = 'intro';           // intro | running | over
+let speed, distance, score, hiScore = 0, flash = 0;
+let obstacles, clouds, pebbles, nextObstacle;
+let frameTime = 0, overAt = 0;
+
+const pug = { y: 0, vy: 0, jumping: false, ducking: false, holdingJump: false, step: 0 };
+
+function reset() {
+  speed = START_SPEED; distance = 0; score = 0; flash = 0;
+  obstacles = []; nextObstacle = 380;
+  clouds = [{ x: 120, y: 30 }, { x: 390, y: 52 }];
+  pebbles = Array.from({ length: 22 }, () => ({ x: Math.random() * W, y: GROUND + 3 + Math.floor(Math.random() * 10), w: 1 + Math.floor(Math.random() * 3) }));
+  Object.assign(pug, { y: 0, vy: 0, jumping: false, ducking: false, step: 0 });
+}
+reset();
+
+/* =================== controls =================== */
+function jump() {
+  if (state === 'intro') { state = 'running'; }
+  if (state === 'over') { if (performance.now() - overAt > 500) { reset(); state = 'running'; } return; }
+  if (!pug.jumping && !pug.ducking) { pug.jumping = true; pug.vy = JUMP_VELOCITY; }
+  pug.holdingJump = true;
+}
+function releaseJump() {
+  pug.holdingJump = false;
+  if (pug.jumping && pug.vy < -8) pug.vy = -8;        // short tap = lower jump (still clears a hydrant)
+}
+addEventListener('keydown', (e) => {
+  if (['Space', 'ArrowUp', 'KeyW'].includes(e.code)) { e.preventDefault(); if (!e.repeat) jump(); }
+  if (['ArrowDown', 'KeyS'].includes(e.code)) {
+    e.preventDefault();
+    if (state !== 'running') return;
+    if (pug.jumping) pug.vy += 3;                    // pressing down mid-air drops you faster
+    else pug.ducking = true;
+  }
+});
+addEventListener('keyup', (e) => {
+  if (['Space', 'ArrowUp', 'KeyW'].includes(e.code)) releaseJump();
+  if (['ArrowDown', 'KeyS'].includes(e.code)) pug.ducking = false;
+});
+box.addEventListener('pointerdown', (e) => { e.preventDefault(); box.focus(); jump(); });
+box.addEventListener('pointerup', releaseJump);
+
+/* =================== obstacles =================== */
+function spawnObstacle() {
+  const canFly = score > 350;
+  if (canFly && Math.random() < 0.28) {
+    const heights = [10, 26, 56];                      // above the ground: jump / duck / run under
+    const lift = heights[Math.floor(Math.random() * heights.length)];
+    const img = IMG.bird[0];
+    obstacles.push({ type: 'bird', x: W, y: GROUND - lift - img.height, w: img.width, h: img.height, flap: 0 });
+  } else {
+    const big = Math.random() < 0.55;
+    const img = big ? IMG.hydrant : IMG.small;
+    const count = speed > 8 ? 1 + Math.floor(Math.random() * (big ? 2 : 3)) : 1;
+    for (let i = 0; i < count; i++) {
+      obstacles.push({ type: big ? 'hydrant' : 'small', x: W + i * (img.width + 4), y: GROUND - img.height, w: img.width, h: img.height });
+    }
+  }
+  nextObstacle = speed * 42 + 140 + Math.random() * 260;   // gap grows with speed, so it stays fair
+}
+
+/* =================== hit test (a little forgiving) =================== */
+function pugBoxes() {
+  const x = 40, top = GROUND - (pug.ducking ? IMG.duck[0].height : IMG.run[0].height) + pug.y;
+  if (pug.ducking) return [{ x: x + 4, y: top + 6, w: 48, h: 18 }];
+  return [
+    { x: x + 26, y: top + 2, w: 22, h: 20 },   // head
+    { x: x + 4, y: top + 14, w: 34, h: 16 },   // body
+    { x: x + 6, y: top + 26, w: 30, h: 8 },    // legs
+  ];
+}
+function hits(a, b) { return a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y; }
+
+/* =================== update =================== */
+function update(dt) {                         // dt = 1 at 60 fps
+  speed = Math.min(MAX_SPEED, speed + ACCEL * dt);
+  distance += speed * dt;
+  const newScore = Math.floor(distance * 0.025);
+  if (Math.floor(newScore / 100) > Math.floor(score / 100)) flash = 60;   // blink every 100 points
+  score = newScore;
+  if (flash > 0) flash -= dt;
+
+  // pug
+  if (pug.jumping) {
+    pug.vy += GRAVITY * dt;
+    pug.y += pug.vy * dt;
+    if (pug.y >= 0) { pug.y = 0; pug.vy = 0; pug.jumping = false; }
+  }
+  pug.step += dt;
+
+  // world
+  for (const o of obstacles) { o.x -= speed * dt; if (o.type === 'bird') o.flap += dt; }
+  obstacles = obstacles.filter((o) => o.x + o.w > -10);
+  nextObstacle -= speed * dt;
+  if (nextObstacle <= 0) spawnObstacle();
+
+  for (const c of clouds) c.x -= 0.25 * dt;
+  if (clouds[clouds.length - 1].x < W - 200 - Math.random() * 200) clouds.push({ x: W + 10, y: 18 + Math.random() * 50 });
+  clouds = clouds.filter((c) => c.x > -80);
+
+  for (const p of pebbles) { p.x -= speed * dt; if (p.x < -4) { p.x = W + Math.random() * 40; p.y = GROUND + 3 + Math.floor(Math.random() * 10); } }
+
+  // crash?
+  const boxes = pugBoxes();
+  for (const o of obstacles) {
+    const ob = { x: o.x + 3, y: o.y + 3, w: o.w - 6, h: o.h - 4 };
+    if (boxes.some((b) => hits(b, ob))) { gameOver(); break; }
+  }
+}
+
+function gameOver() {
+  state = 'over'; overAt = performance.now();
+  hiScore = Math.max(hiScore, score);
+  pug.ducking = false;
+}
+
+/* =================== draw =================== */
+const pad = (n) => String(n).padStart(5, '0');
+
+function drawText(text, x, y, color, align = 'left') {
+  ctx.fillStyle = color; ctx.textAlign = align; ctx.textBaseline = 'top';
+  ctx.font = '10px "Press Start 2P", monospace';
+  ctx.fillText(text, x, y);
+}
+
+function drawRestartIcon(cx, cy) {         // simple "replay" arrow
+  ctx.strokeStyle = INK; ctx.fillStyle = INK; ctx.lineWidth = 3; ctx.lineCap = 'butt';
+  ctx.beginPath(); ctx.arc(cx, cy + 12, 10, -Math.PI * 0.35, Math.PI * 1.45); ctx.stroke();
+  // arrow head at the end of the arc
+  ctx.beginPath(); ctx.moveTo(cx + 3, cy - 3); ctx.lineTo(cx + 12, cy + 3); ctx.lineTo(cx + 3, cy + 7); ctx.closePath(); ctx.fill();
+}
+
+function draw() {
+  ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, W, H);
+
+  for (const c of clouds) ctx.drawImage(IMG.cloud, Math.round(c.x), Math.round(c.y));
+
+  // ground line + little bumps and pebbles
+  ctx.fillStyle = INK;
+  ctx.fillRect(0, GROUND, W, 1);
+  for (const p of pebbles) ctx.fillRect(Math.round(p.x), p.y, p.w, 1);
+
+  for (const o of obstacles) {
+    const img = o.type === 'bird' ? IMG.bird[Math.floor(o.flap / 12) % 2] : IMG[o.type];
+    ctx.drawImage(img, Math.round(o.x), Math.round(o.y));
+  }
+
+  // pug
+  let img;
+  if (state === 'over') img = IMG.dead;
+  else if (state === 'intro') img = IMG.run[0];
+  else if (pug.jumping) img = IMG.jump;
+  else if (pug.ducking) img = IMG.duck[Math.floor(pug.step / 5) % 2];
+  else img = IMG.run[Math.floor(pug.step / 5) % 2];
+  const standH = IMG.run[0].height;
+  const top = pug.ducking && state === 'running' && !pug.jumping ? GROUND - img.height : GROUND - standH + Math.round(pug.y);
+  ctx.drawImage(img, 40, top);
+
+  // score (blinks when you pass every 100)
+  const showScore = flash <= 0 || Math.floor(flash / 8) % 2 === 0;
+  if (hiScore > 0) drawText('HI ' + pad(hiScore), W - 80, 10, '#757575', 'right');
+  if (showScore) drawText(pad(flash > 0 ? Math.floor(score / 100) * 100 : score), W - 12, 10, INK, 'right');
+
+  if (state === 'intro') {
+    drawText('PRESS SPACE OR TAP TO START', W / 2, 58, INK, 'center');
+  }
+  if (state === 'over') {
+    drawText('G A M E   O V E R', W / 2, 44, INK, 'center');
+    drawRestartIcon(W / 2, 66);
+  }
+}
+
+/* =================== loop =================== */
+let last = performance.now();
+function loop(now) {
+  let dt = (now - last) / 16.667;
+  last = now;
+  if (dt > 3) dt = 1;                        // tab was hidden – don't jump ahead
+  if (state === 'running') update(dt);
+  draw();
+  requestAnimationFrame(loop);
+}
+(document.fonts ? document.fonts.load('10px "Press Start 2P"') : Promise.resolve()).finally(() => requestAnimationFrame(loop));
+</script>
+</body>
+</html>

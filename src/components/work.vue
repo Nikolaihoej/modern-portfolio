@@ -4,22 +4,44 @@
         <div class="row justify-content-center">
             <div class="col">
                 <div class="tabs">
-                    <div class="tab" :class="{ active: activeTab === 'work' }" @click="activeTab = 'work'">Work</div>
-                    <div class="tab" :class="{ active: activeTab === 'education' }" @click="activeTab = 'education'">Education</div>
+                    <!-- the light "pill" that slides behind the active tab -->
+                    <span class="tab-indicator" :style="{ transform: `translateX(${activeIndex * 100}%)` }"></span>
+                    <button
+                        v-for="tab in tabs"
+                        :key="tab.key"
+                        type="button"
+                        class="tab"
+                        :class="{ active: activeTab === tab.key }"
+                        @click="activeTab = tab.key"
+                    >
+                        {{ tab.label }}
+                    </button>
                 </div>
-                <div class="timeline-container">
-                    <Transition name="fade" mode="out-in">
-                        <div class="timeline" :key="activeTab">
-                            <div v-for="(item, index) in currentTimeline" :key="index" class="timeline-item">
-                                <div class="timeline-icon">
-                                    <img :src="item.icon" alt="Company Logo" class="timeline-img" />
+
+                <!-- the box animates its height, so the page below doesn't jump -->
+                <div class="timeline-container" :style="{ height: containerHeight ? containerHeight + 'px' : 'auto' }">
+                    <!-- both lists sit side by side, and we slide between them -->
+                    <div class="slider" :style="{ transform: `translateX(-${activeIndex * 100}%)` }">
+                        <div
+                            v-for="tab in tabs"
+                            :key="tab.key"
+                            :ref="(el) => (panels[tab.key] = el)"
+                            class="panel"
+                            :class="{ active: activeTab === tab.key }"
+                            :aria-hidden="activeTab !== tab.key"
+                        >
+                            <div class="timeline">
+                                <div v-for="(item, index) in tab.items" :key="index" class="timeline-item">
+                                    <div class="timeline-icon">
+                                        <img :src="item.icon" alt="Company Logo" class="timeline-img" />
+                                    </div>
+                                    <div class="timeline-date">{{ item.date }}</div>
+                                    <div class="timeline-company">{{ item.company }}</div>
+                                    <div class="timeline-role">{{ item.role }}</div>
                                 </div>
-                                <div class="timeline-date">{{ item.date }}</div>
-                                <div class="timeline-company">{{ item.company }}</div>
-                                <div class="timeline-role">{{ item.role }}</div>
                             </div>
                         </div>
-                    </Transition>
+                    </div>
                 </div>
             </div>
         </div>
@@ -27,19 +49,42 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
+import { ref, computed, watch, nextTick, onMounted, onBeforeUnmount } from "vue";
 import { educationTimeline } from "@/data/education.js";
 import { workTimeline } from '../data/work.js'
 
+const tabs = [
+  { key: "work", label: "Work", items: workTimeline },
+  { key: "education", label: "Education", items: educationTimeline },
+];
+
 const activeTab = ref("work");
+
+const activeIndex = computed(() => tabs.findIndex((tab) => tab.key === activeTab.value));
 
 const sectionTitle = computed(() =>
   activeTab.value === "work" ? "Work" : "Education"
 );
 
-const currentTimeline = computed(() =>
-  activeTab.value === "work" ? workTimeline : educationTimeline
-);
+// Height of the box = height of the list that is showing
+const panels = {};
+const containerHeight = ref(0);
+
+function updateHeight() {
+  const panel = panels[activeTab.value];
+  if (panel) containerHeight.value = panel.offsetHeight;
+}
+
+watch(activeTab, () => nextTick(updateHeight));
+
+onMounted(() => {
+  updateHeight();
+  window.addEventListener("resize", updateHeight);
+});
+
+onBeforeUnmount(() => {
+  window.removeEventListener("resize", updateHeight);
+});
 </script>
 
 <style scoped>
@@ -68,6 +113,23 @@ const currentTimeline = computed(() =>
   background: var(--content-bg-dark);
   border-radius: 8px;
   color: var(--text-dark);
+  overflow: hidden;
+  transition: height 0.4s ease;
+}
+
+.slider {
+  display: flex;
+  align-items: flex-start; /* each list keeps its own height */
+  transition: transform 0.4s ease;
+}
+
+.panel {
+  flex: 0 0 100%;
+  opacity: 0.3;
+  transition: opacity 0.4s ease;
+}
+.panel.active {
+  opacity: 1;
 }
 .light .timeline-container {
   background: var(--content-bg-light);
@@ -75,6 +137,7 @@ const currentTimeline = computed(() =>
 }
 
 .tabs {
+    position: relative;
     display: flex;
     margin-bottom: 10px;
     background: var(--border-dark-hover);
@@ -85,32 +148,55 @@ const currentTimeline = computed(() =>
     background: var(--border-light-hover);
 }
 .tab:hover {
-    background: var(--border-dark-hover);  
+    color: var(--text-dark);
 }
 .light .tab:hover {
-    background: var(--border-light-hover);
+    color: var(--text-light);
 }
 
 .tab {
+    position: relative;
+    z-index: 1;
     flex: 1;
     text-align: center;
     padding: 10px 0;
     cursor: pointer;
     color: var(--text-dark-secondary);
-    transition: 0.3s;
+    background: none;
+    border: none;
+    font: inherit;
+    transition: color 0.3s;
 }
 .light .tab {
     color: var(--text-light-secondary);
 }
 
 .tab.active {
-    background: var(--content-bg-dark);
     color: var(--text-dark);
     font-weight: 600;
 }
 .light .tab.active {
-    background: var(--content-bg-light);
     color: var(--text-light);
+}
+.tab:focus-visible {
+    outline: 2px solid var(--text-dark-secondary);
+    outline-offset: -4px;
+    border-radius: 8px;
+}
+
+/* the sliding background behind the active tab */
+.tab-indicator {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 50%;
+    height: 100%;
+    background: var(--content-bg-dark);
+    border-radius: 8px;
+    transition: transform 0.4s ease;
+}
+.light .tab-indicator {
+    background: var(--content-bg-light);
 }
 
 .timeline {
@@ -187,13 +273,12 @@ const currentTimeline = computed(() =>
     color: var(--text-light-secondary);
 }
 
-.fade-enter-active, .fade-leave-active {
-    transition: opacity 0.3s;
-}
-.fade-enter-from, .fade-leave-to {
-    opacity: 0;
-}
-.fade-enter-to, .fade-leave-from {
-    opacity: 1;
+@media (prefers-reduced-motion: reduce) {
+    .tab-indicator,
+    .timeline-container,
+    .slider,
+    .panel {
+        transition: none;
+    }
 }
 </style>

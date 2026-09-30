@@ -151,17 +151,17 @@ function animateHand() {
     height: 8px;
     flex: 0 0 8px;
     border-radius: 50%;
-    background: #1aaa61;
-    box-shadow: 0 0 0 0 rgb(26 170 97 / 60%);
+    background: #168bff;
+    box-shadow: 0 0 0 0 rgb(22 139 255 / 60%);
     animation: pulse 1.8s infinite;
 }
 
 @keyframes pulse {
     70% {
-        box-shadow: 0 0 0 6px rgb(26 170 97 / 0%);
+        box-shadow: 0 0 0 6px rgb(22 139 255 / 0%);
     }
     100% {
-        box-shadow: 0 0 0 0 rgb(26 170 97 / 0%);
+        box-shadow: 0 0 0 0 rgb(22 139 255 / 0%);
     }
 }
 
