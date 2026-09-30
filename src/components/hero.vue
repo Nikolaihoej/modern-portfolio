@@ -37,8 +37,8 @@
 
 <script setup>
 import { ref, computed, watch, onBeforeUnmount } from 'vue'
-import meImg from '../assets/images/me.png'
-import meGlassesImg from '../assets/images/meGlasses.png'
+import meImg from '../assets/images/mewithoutglassesandbg.png'
+import meGlassesImg from '../assets/images/menewwithglasses.png'
 
 const filled = ref(false)
 const borderOffset = ref(289)
