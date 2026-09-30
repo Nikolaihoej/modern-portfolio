@@ -6,7 +6,7 @@
       <section class="footer-cta" id="contact" aria-labelledby="footerCtaTitle">
         <div>
           <p class="section-title">Contact</p>
-          <h2 id="footerCtaTitle">Let's have a chat ☕</h2>
+          <h2 id="footerCtaTitle">Let's have a chat ☕️</h2>
           <p class="cta-text">
             I design and build websites that are easy to use and good to look at.
             Send me a line and let’s talk about what you’re building.
