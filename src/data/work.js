@@ -32,6 +32,6 @@ export const workTimeline = [
     icon: uclIcon,
     date: "Sep 2022 - Dec 2022",
     company: "UCL - University College Lillebælt",
-    role: "Student Assistant in Media labs",
+    role: "Student Assistant",
   }
 ];
