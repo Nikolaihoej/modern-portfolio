@@ -1,11 +1,14 @@
 <template>
     <div class="container custom-container my-4">
         <div class="row d-flex align-items-center">
-            <div class="image col-auto" style="position: relative; width: 108px; height: 108px;" @mouseenter="handleHover" @mouseleave="handleLeave" @click="handleHover">
-                <svg class="profile-border" width="100" height="100" style="position: absolute; overflow: visible;">
-                    <circle cx="50" cy="50" r="46" stroke="#1aaa61" stroke-width="20" :stroke-dashoffset="borderOffset" stroke-dasharray="289" style="transition: stroke-dashoffset 0.6s ease-in-out;"/>
-                </svg>
-                <img class="profile-img" :src="filled ? meGlassesImg : meImg" alt="Hero Image" style="position: relative; z-index: 1;" />
+            <div class="image col-auto" @mouseenter="handleHover" @mouseleave="handleLeave" @click="handleHover">
+                <!-- the size is set once with --avatar-size (see the CSS) – ring and image follow it -->
+                <div class="avatar">
+                    <svg class="profile-border" viewBox="0 0 100 100">
+                        <circle cx="50" cy="50" r="46" stroke="#168bff" stroke-width="20" fill="none" :stroke-dashoffset="borderOffset" stroke-dasharray="289" style="transition: stroke-dashoffset 0.6s ease-in-out;"/>
+                    </svg>
+                    <img class="profile-img" :src="filled ? meGlassesImg : meImg" alt="Hero Image" />
+                </div>
             </div>
             <div class="details col text-left ms-3">
                 <div class="title-container">
@@ -21,12 +24,19 @@
                 </div>
             </div>
         </div>
-        <div class="description my-4"><h3>I'm a web developer who focuses on frontend and UI/UX design. I pay attention to details and enjoy solving problems with code and design.</h3></div>
+        <div class="description my-4" :class="{ highlighted: isOn }">
+            <h3>
+                I'm a <mark class="key" style="--i: 0">web developer</mark> who focuses on
+                <mark class="key" style="--i: 1">frontend</mark> and <mark class="key" style="--i: 2">UI/UX design</mark>.
+                I pay <mark class="key" style="--i: 3">attention to details</mark> and enjoy
+                <mark class="key" style="--i: 4">solving problems</mark> with code and design.
+            </h3>
+        </div>
     </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed, watch, onBeforeUnmount } from 'vue'
 import meImg from '../assets/images/me.png'
 import meGlassesImg from '../assets/images/meGlasses.png'
 
@@ -34,6 +44,20 @@ const filled = ref(false)
 const borderOffset = ref(289)
 const animating = ref(false)
 let fillTimeout = null
+
+// The highlight follows the blue circle: when the circle is filled (glasses on),
+// the key words stay highlighted – also after the mouse leaves.
+// Hover again and the circle empties and the highlight goes away.
+const isOn = computed(() => borderOffset.value === 0)
+
+// The glow at the top of the page lives on #app (main.css), so we tell it via a class on <body>
+watch(isOn, (on) => {
+    document.body.classList.toggle('hero-active', on)
+})
+
+onBeforeUnmount(() => {
+    document.body.classList.remove('hero-active')
+})
 
 function handleHover() {
     if (animating.value) return;
@@ -88,12 +112,32 @@ function animateHand() {
 </script>
 
 <style scoped>
+/* one number controls the picture + ring: 220px on big screens, smaller on phones */
+.avatar {
+    --avatar-size: clamp(88px, 26vw, 220px);
+    position: relative;
+    width: var(--avatar-size);
+    height: var(--avatar-size);
+    margin: calc(var(--avatar-size) * 0.06); /* room for the ring, which sits a bit outside the picture */
+}
+
+/* the svg uses viewBox 0–100, so the ring scales with the picture */
+.profile-border {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+}
+
 .profile-img {
     position: relative;
-    width: 100px;
-    height: 100px;
+    z-index: 1;
+    display: block;
+    width: 100%;
+    height: 100%;
     border-radius: 50%;
-    z-index: 2;
+    object-fit: cover;
 }
 
 .custom-container {
@@ -128,6 +172,62 @@ function animateHand() {
 }
 .location-link:hover {
     opacity: 1;
+}
+
+/* ---------- name + info grow with the picture (same 26vw → 220px idea) ---------- */
+.title {
+    font-size: clamp(26px, 4.4vw, 56px);
+    font-weight: 600;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin-bottom: clamp(8px, 1.2vw, 16px);
+}
+.location {
+    font-size: clamp(14px, 1.7vw, 20px);
+    gap: clamp(6px, 0.8vw, 12px);
+}
+.work-status {
+    gap: clamp(6px, 0.7vw, 10px);
+}
+.pulse-dot {
+    width: clamp(8px, 0.9vw, 11px);
+    height: clamp(8px, 0.9vw, 11px);
+    flex-basis: clamp(8px, 0.9vw, 11px);
+}
+
+/* ---------- key words that light up when you hover the picture ---------- */
+.description h3 {
+    transition: color 0.4s ease;
+}
+.highlighted h3 {
+    color: var(--text-dark-secondary); /* the rest of the text steps back */
+}
+.light .highlighted h3 {
+    color: var(--text-light-secondary);
+}
+
+.key {
+    color: inherit;
+    padding: 0 3px;
+    margin: 0 -3px; /* the padding doesn't push the text apart */
+    border-radius: 4px;
+    /* a blue "marker" that sweeps in from the left */
+    background: linear-gradient(#168bff, #168bff) no-repeat left center / 0% 100%;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+    transition:
+        background-size 0.45s ease calc(var(--i) * 70ms),
+        color 0.3s ease calc(var(--i) * 70ms);
+}
+.highlighted .key {
+    background-size: 100% 100%;
+    color: #fff;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .key {
+        transition: none;
+    }
 }
 
 @keyframes surfer-gesture {

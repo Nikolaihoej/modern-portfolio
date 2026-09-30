@@ -146,15 +146,20 @@ function layout() {
   // hjulets yderste kort skal flugte med sidens container (--container-max i main.css)
   const containerMax = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--container-max')) || Infinity
   const inner = Math.min(W, containerMax) - 24 // minus containerens padding
-  const rDesk = Math.min(W * 0.42, inner / 2.26, (vh - 90) / 1.16, 720)
-  const desktop = W >= 1024 && rDesk >= 480
+  // Desktop: big cards first, then the wheel radius is chosen so the outermost
+  // cards still end at the container edge (0.932 = sin of the angle where cards start to fade,
+  // 0.47 = how far a tilted card sticks out sideways, relative to its width)
+  let cwDesk = clamp(inner * 0.26, 220, 320)
+  let rDesk = Math.min((inner / 2 - 0.47 * cwDesk) / 0.932, (vh - 90 - cwDesk * 0.31) / 1.05, 720)
+  cwDesk = Math.min(cwDesk, rDesk * 0.65) // on low screens the cards shrink with the wheel
+  const desktop = W >= 1024 && rDesk >= 400
   let cw
   if (desktop) {
     R = rDesk
-    cw = clamp(R * 0.42, 200, 300)
+    cw = cwDesk
   } else {
-    cw = clamp(W * 0.46, 170, 250)
-    R = clamp(W * 0.55, 400, 560)
+    cw = clamp(W * 0.62, 200, 300)
+    R = clamp(W * 0.6, 420, 600)
   }
   const ch = cw * 0.62 // tæt på jeres screenshots (ca. 16:9)
   const N = items.value.length || 1
@@ -177,15 +182,7 @@ function layout() {
     H = Math.max(cy + 24, top + h + 64)
   }
 
-  // 2) fyld skærmen under navbaren – er der plads til overs, centreres det hele lodret
-  const navH = el.getBoundingClientRect().top + window.scrollY
-  const avail = window.innerHeight - navH
-  if (avail > H) {
-    const extra = (avail - H) / 2
-    cy += extra
-    top += extra
-    H = avail
-  }
+  // (the section is only as tall as the wheel + text, so the footer follows right after)
 
   el.style.setProperty('--cy', cy + 'px')
   el.style.setProperty('--ct', top + 'px')

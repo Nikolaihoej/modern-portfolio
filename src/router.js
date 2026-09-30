@@ -4,7 +4,7 @@ import Projects from './views/Projects.vue'
 
 const routes = [
   { path: '/', component: Home },
-  { path: '/projects', component: Projects, meta: { noGradient: true } }
+  { path: '/projects', component: Projects }
 ]
 
 export default createRouter({

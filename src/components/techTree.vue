@@ -32,6 +32,8 @@ const techStack = [
 
 <style scoped>
 .custom-container {
+    position: relative; /* sits on top of the faded bottom of the corgi game */
+    z-index: 1;
     max-width: var(--container-max);
     margin-left: auto;
     margin-right: auto;

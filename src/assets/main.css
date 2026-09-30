@@ -50,9 +50,30 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
   --app-gradient: none;
 }
 
+/* The glow at the top of the page.
+   --glow-color is registered so the browser can fade smoothly between colours. */
+@property --glow-color {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: rgba(26, 44, 37, 0.74);
+}
+
 #app {
+  --glow-color: rgba(26, 44, 37, 0.74);          /* green */
   background-color: var(--app-bg);
-  background-image: var(--app-gradient);
+  background-image: linear-gradient(180deg, var(--glow-color) 0%, rgba(0, 0, 0, 0) 400px);
   color: var(--app-text);
   font-family: 'Inter', sans-serif;
+  transition: --glow-color 3s ease; /* a slow, gentle shift */
+}
+.light #app {
+  --glow-color: rgba(108, 162, 196, 0.74);
+}
+
+/* when the hero picture is "on", the glow slowly gets a little brighter */
+.hero-active #app {
+  --glow-color: rgba(36, 78, 60, 0.9);
+}
+.light.hero-active #app {
+  --glow-color: rgba(128, 182, 214, 0.9);
 }

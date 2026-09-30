@@ -1,5 +1,5 @@
 <template>
-  <div class="container custom-container mb-4">
+  <div class="container custom-container game-wrap">
     <div
       ref="gameBox"
       class="game-card"
@@ -42,7 +42,7 @@ const pad = (n) => String(n).padStart(5, '0')
 
 /* ---------- game settings ---------- */
 const H = 150 // game height in game-pixels (width depends on the screen)
-const GROUND = 120 // where the corgi's feet are
+const GROUND = 108 // where the corgi's feet are (above the fade)
 const PX = 2 // one sprite pixel = 2 game pixels
 const START_SPEED = 6
 const MAX_SPEED = 13
@@ -398,22 +398,20 @@ onBeforeUnmount(() => {
   max-width: var(--container-max);
 }
 
+/* pull the techtree up into the faded part of the game */
+.game-wrap {
+  margin-bottom: -12px;
+}
+
 .game-card {
   position: relative;
   height: clamp(170px, 20vw, 240px);
-  border-radius: 8px;
-  border: 1px solid var(--border-dark);
+  border-radius: 12px;
   overflow: hidden;
   cursor: pointer;
-  outline: none;
+  outline: none; /* no border or ring when you click to play */
   touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
-}
-.light .game-card {
-  border-color: var(--border-light);
-}
-.game-card:focus-visible {
-  box-shadow: 0 0 0 2px var(--text-dark-secondary);
 }
 
 canvas {
@@ -423,23 +421,35 @@ canvas {
   image-rendering: pixelated;
 }
 
-/* the little gradient that fades the bottom into the page */
+/* dark gradient ON TOP of the game (like the map in the reference).
+   pointer-events: none lets clicks/taps go straight through to the game. */
 .game-card::after {
   content: '';
   position: absolute;
   inset: 0;
+  z-index: 1;
   pointer-events: none;
-  background: linear-gradient(180deg, rgba(10, 10, 10, 0) 78%, var(--bg-dark) 100%);
+  background: linear-gradient(
+    to bottom,
+    rgba(10, 10, 10, 0) 60%,
+    rgba(10, 10, 10, 0.7) 84%,
+    var(--bg-dark) 100%
+  );
 }
 .light .game-card::after {
-  background: linear-gradient(180deg, rgba(250, 250, 250, 0) 78%, var(--bg-light) 100%);
+  background: linear-gradient(
+    to bottom,
+    rgba(250, 250, 250, 0) 60%,
+    rgba(250, 250, 250, 0.7) 84%,
+    var(--bg-light) 100%
+  );
 }
 
 .score-chip {
   position: absolute;
   top: 12px;
   right: 12px;
-  z-index: 1;
+  z-index: 2; /* above the gradient */
   display: flex;
   gap: 14px;
   padding: 8px 10px;
