@@ -20,18 +20,11 @@
 
                 <!-- the box animates its height, so the page below doesn't jump -->
                 <div class="timeline-container" :style="{ height: containerHeight ? containerHeight + 'px' : 'auto' }">
-                    <!-- both lists sit side by side, and we slide between them -->
-                    <div class="slider" :style="{ transform: `translateX(-${activeIndex * 100}%)` }">
-                        <div
-                            v-for="tab in tabs"
-                            :key="tab.key"
-                            :ref="(el) => (panels[tab.key] = el)"
-                            class="panel"
-                            :class="{ active: activeTab === tab.key }"
-                            :aria-hidden="activeTab !== tab.key"
-                        >
+                    <!-- the new list slides down into place while the old one slides down and out -->
+                    <Transition name="slide-down">
+                        <div :key="activeTab" :ref="setPanel" class="panel">
                             <div class="timeline">
-                                <div v-for="(item, index) in tab.items" :key="index" class="timeline-item">
+                                <div v-for="(item, index) in currentTab.items" :key="index" class="timeline-item">
                                     <div class="timeline-icon">
                                         <img :src="item.icon" alt="Company Logo" class="timeline-img" />
                                     </div>
@@ -41,7 +34,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </Transition>
                 </div>
             </div>
         </div>
@@ -61,18 +54,22 @@ const tabs = [
 const activeTab = ref("work");
 
 const activeIndex = computed(() => tabs.findIndex((tab) => tab.key === activeTab.value));
+const currentTab = computed(() => tabs[activeIndex.value]);
 
 const sectionTitle = computed(() =>
   activeTab.value === "work" ? "Work" : "Education"
 );
 
 // Height of the box = height of the list that is showing
-const panels = {};
+const panel = ref(null);
+// keep the newest list (Vue passes null when the old one is removed – we ignore that)
+function setPanel(el) {
+  if (el) panel.value = el;
+}
 const containerHeight = ref(0);
 
 function updateHeight() {
-  const panel = panels[activeTab.value];
-  if (panel) containerHeight.value = panel.offsetHeight;
+  if (panel.value) containerHeight.value = panel.value.offsetHeight;
 }
 
 watch(activeTab, () => nextTick(updateHeight));
@@ -110,6 +107,7 @@ onBeforeUnmount(() => {
 }
 
 .timeline-container {
+  position: relative;
   background: var(--content-bg-dark);
   border-radius: 8px;
   color: var(--text-dark);
@@ -117,19 +115,27 @@ onBeforeUnmount(() => {
   transition: height 0.4s ease;
 }
 
-.slider {
-  display: flex;
-  align-items: flex-start; /* each list keeps its own height */
-  transition: transform 0.4s ease;
+/* ---------- switching Work <-> Education: slide down ---------- */
+.slide-down-enter-active {
+  transition: opacity 0.4s ease 0.1s, transform 0.4s ease 0.1s;
 }
-
-.panel {
-  flex: 0 0 100%;
-  opacity: 0.3;
-  transition: opacity 0.4s ease;
+.slide-down-leave-active {
+  transition: opacity 0.2s ease, transform 0.25s ease; /* the old list gets out of the way quickly */
 }
-.panel.active {
-  opacity: 1;
+/* the old list stays on top of the new one while it leaves */
+.slide-down-leave-active {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+.slide-down-enter-from {
+  opacity: 0;
+  transform: translateY(-24px); /* comes in from a little above */
+}
+.slide-down-leave-to {
+  opacity: 0;
+  transform: translateY(24px); /* goes out a little below */
 }
 .light .timeline-container {
   background: var(--content-bg-light);
@@ -276,8 +282,8 @@ onBeforeUnmount(() => {
 @media (prefers-reduced-motion: reduce) {
     .tab-indicator,
     .timeline-container,
-    .slider,
-    .panel {
+    .slide-down-enter-active,
+    .slide-down-leave-active {
         transition: none;
     }
 }
