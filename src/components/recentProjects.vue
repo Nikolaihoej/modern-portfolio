@@ -1,7 +1,6 @@
 <template>
     <div class="container custom-container mb-5">
         <h2 class="section-title">Recent projects</h2>
-
         <div class="row justify-content-center">
             <div v-for="project in recentProjects" :key="project.id" class="col-md-6 mb-4">
                 <router-link :to="`/projects`" class="project-link">

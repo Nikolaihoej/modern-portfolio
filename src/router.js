@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory, START_LOCATION } from 'vue-router'
 import Home from './views/home.vue'
 // Projects is only loaded when you open the page, so the home page doesn't have to download three.js
 const Projects = () => import('./views/Projects.vue')
@@ -33,6 +33,11 @@ const router = createRouter({
   // Without this, Vue Router keeps the old scroll position – that's why
   // /projects opened in the middle of the page.
   scrollBehavior(to, from, savedPosition) {
+    // A fresh page load (also when you refresh) always starts at the top.
+    // Without this, the browser remembered where you were and pulled you back down there.
+    // Links like /#contact still scroll to their section.
+    if (from === START_LOCATION && !to.hash) return { top: 0 }
+
     // wait for the fade between pages in App.vue (0.5s) before scrolling,
     // so you don't see the old page jump to the top while it fades out
     return new Promise((resolve) => {
