@@ -1,4 +1,4 @@
-import uclIcon from '../assets/images/companies/uclcompany.png'
+import uclIcon from '../assets/images/companies/uclcompany.webp'
 
 export const educationTimeline = [
   {

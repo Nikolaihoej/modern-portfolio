@@ -1,7 +1,7 @@
-import ordbogenIcon from '../assets/images/companies/ordbogencompany.png'
-import tesIcon from '../assets/images/companies/tescompany.jpg'
-import uclIcon from '../assets/images/companies/uclcompany.png'
-import naemt from '../assets/images/companies/naemtwhite.png'
+import ordbogenIcon from '../assets/images/companies/ordbogencompany.webp'
+import tesIcon from '../assets/images/companies/tescompany.webp'
+import uclIcon from '../assets/images/companies/uclcompany.webp'
+import naemt from '../assets/images/companies/naemtwhite.webp'
 
 export const workTimeline = [
   {

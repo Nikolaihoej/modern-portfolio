@@ -1,12 +1,12 @@
-import echoviceImg from '../assets/images/projects/echovice.png'
-import periodontImg from '../assets/images/projects/periodontImage.png'
-import mediprax from '../assets/images/projects/mediprax.png'
-import hallgrenskoreskole from '../assets/images/projects/hallgrenskoreskole.png'
-import pnregnskab from '../assets/images/projects/pnregnskab.png'
-import paprika from '../assets/images/projects/paprika.png'
-import diningbymanan from '../assets/images/projects/diningbymanan.png'
-import masala from '../assets/images/projects/masala.png'
-import tandooribbq from '../assets/images/projects/tandooribbq.png'
+import echoviceImg from '../assets/images/projects/echovice.webp'
+import periodontImg from '../assets/images/projects/periodontImage.webp'
+import mediprax from '../assets/images/projects/mediprax.webp'
+import hallgrenskoreskole from '../assets/images/projects/hallgrenskoreskole.webp'
+import pnregnskab from '../assets/images/projects/pnregnskab.webp'
+import paprika from '../assets/images/projects/paprika.webp'
+import diningbymanan from '../assets/images/projects/diningbymanan.webp'
+import masala from '../assets/images/projects/masala.webp'
+import tandooribbq from '../assets/images/projects/tandooribbq.webp'
 
 export const projects = [
  {
