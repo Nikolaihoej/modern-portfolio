@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from './views/home.vue'
-import Projects from './views/Projects.vue'
+// Projects is only loaded when you open the page, so the home page doesn't have to download three.js
+const Projects = () => import('./views/Projects.vue')
 
 const routes = [
   { path: '/', component: Home },

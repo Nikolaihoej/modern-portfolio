@@ -34,3 +34,6 @@ coverage
 
 # Vitest
 __screenshots__/
+
+# Claude previews and notes (not part of the site)
+Claude outputs/

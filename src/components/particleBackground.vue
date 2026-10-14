@@ -46,7 +46,7 @@ class Particle {
     this.twinkle = Math.random() * Math.PI * 2 // hvor i "blinket" den starter
   }
   update() {
-    // wind.x kommer fra projekthjulet – store stjerner flytter sig mest
+    // wind.x kommer fra projektslideren – store stjerner flytter sig mest
     this.x += this.speedX + wind.x * this.size * 16
     this.y += this.speedY
     this.twinkle += 0.03
