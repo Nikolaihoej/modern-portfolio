@@ -3,12 +3,29 @@ import Home from './views/home.vue'
 // Projects is only loaded when you open the page, so the home page doesn't have to download three.js
 const Projects = () => import('./views/Projects.vue')
 
+const SITE_URL = 'https://nhjportfolio.web.app'
+
+// title and description for each page (shown in Google and on the browser tab)
 const routes = [
-  { path: '/', component: Home },
-  { path: '/projects', component: Projects }
+  {
+    path: '/',
+    component: Home,
+    meta: {
+      title: 'Nikolai Jensen – Web Designer & Frontend Developer in Odense',
+      description: 'Portfolio of Nikolai Jensen, a web designer and frontend developer in Odense, Denmark, focused on UI/UX design and websites that are easy to use.',
+    },
+  },
+  {
+    path: '/projects',
+    component: Projects,
+    meta: {
+      title: 'Projects – Websites designed at næmt.nu | Nikolai Jensen',
+      description: 'A selection of websites I’ve designed for real clients at næmt.nu. Browse the projects and click one to visit the live site.',
+    },
+  },
 ]
 
-export default createRouter({
+const router = createRouter({
   history: createWebHistory(),
   routes,
 
@@ -27,3 +44,13 @@ export default createRouter({
     })
   },
 })
+
+// After every page change: update the title, description and canonical link in <head>
+router.afterEach((to) => {
+  if (!to.meta.title) return // a page without its own texts keeps the ones from index.html
+  document.title = to.meta.title
+  document.querySelector('meta[name="description"]').setAttribute('content', to.meta.description)
+  document.querySelector('link[rel="canonical"]').setAttribute('href', SITE_URL + to.path)
+})
+
+export default router
