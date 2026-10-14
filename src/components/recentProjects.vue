@@ -10,8 +10,8 @@
                             <img :src="project.image" :alt="project.title">
                         </div>
                         <div class="card-details">
-                            <h3 class="card-title">{{ project.title }}</h3>
-                            <p class="card-text">{{ project.description }}</p>
+                            <p class="meta">Webdesign</p>
+                            <h3 class="card-title">{{ project.name }}</h3>
                         </div>
                     </div>
                 </router-link>
@@ -25,7 +25,11 @@
 <script setup>
 import { projects } from '../data/projects.js'
 
-const recentProjects = projects.slice(0, 2)
+// the two newest projects – "Webdesign - " is shown as a small label instead
+const recentProjects = projects.slice(0, 2).map((project) => ({
+    ...project,
+    name: project.title.replace(/^Webdesign\s*-\s*/i, ''),
+}))
 
 </script>
 
@@ -34,21 +38,6 @@ const recentProjects = projects.slice(0, 2)
     max-width: var(--container-max);
     margin-left: auto;
     margin-right: auto;
-}
-
-.section-title {
-    background: var(--border-dark);
-    color: var(--text-dark);
-    padding: 12px 24px;
-    border-radius: 8px;
-    font-size: 16px;
-    font-weight: 500;
-    display: inline-block;
-    margin-bottom: 16px;
-}
-.light .section-title {
-    background: var(--border-light);
-    color: var(--text-light);
 }
 
 .project-card {
@@ -102,32 +91,22 @@ const recentProjects = projects.slice(0, 2)
     padding: 24px;
 }
 
+.card-details .meta {
+    margin: 0 0 8px;
+}
+
 .card-title {
     color: var(--text-dark);
-    font-size: 24px;
-    font-weight: 600;
-    margin-bottom: 12px;
+    margin: 0;
 }
 .light .card-title {
     color: var(--text-light);
 }
 
-.card-text {
-    color: var(--text-dark-secondary);
-    font-size: 16px;
-    line-height: 1.6;
-    margin: 0;
-    white-space: nowrap;         
-    overflow: hidden;  
-    text-overflow: ellipsis;
-}
-.light .card-text {
-    color: var(--text-light-secondary);
-}
-
 .more-projects {
     color: var(--text-dark);
-    font-size: 18px;
+    font-family: var(--font-heading);
+    font-size: var(--fs-label);
     font-weight: 500;
     text-decoration: none;
     display: inline-block;

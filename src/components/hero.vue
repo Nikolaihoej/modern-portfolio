@@ -12,7 +12,7 @@
             </div>
             <div class="details col text-left ms-3">
                 <div class="title-container">
-                    <h2 class="title">Hey! I'm Nikolai <span class="surfer-hand" :class="{ animated: handAnimating }" @click="animateHand" @mouseenter="animateHand">🤙🏼</span></h2>
+                    <h1 class="title">Hey! I'm Nikolai <span class="surfer-hand" :class="{ animated: handAnimating }" @click="animateHand" @mouseenter="animateHand">🤙🏼</span></h1>
                 </div>
                 <div class="location">
                     <div>Based in Odense • DK</div>
@@ -25,12 +25,12 @@
             </div>
         </div>
         <div class="description my-4" :class="{ highlighted: isOn }">
-            <h3>
+            <p class="lead-text">
                 I'm a <mark class="key" style="--i: 0">web developer</mark> who focuses on
                 <mark class="key" style="--i: 1">frontend</mark> and <mark class="key" style="--i: 2">UI/UX design</mark>.
                 I pay <mark class="key" style="--i: 3">attention to details</mark> and enjoy
                 <mark class="key" style="--i: 4">solving problems</mark> with code and design.
-            </h3>
+            </p>
         </div>
     </div>
 </template>
@@ -171,7 +171,7 @@ function animateHand() {
 .location-link {
     color: inherit;
     text-decoration: none;
-    font-weight: bold;
+    font-weight: 700;
     opacity: 0.5;
     transition: opacity 0.3s;
 }
@@ -179,16 +179,13 @@ function animateHand() {
     opacity: 1;
 }
 
-/* ---------- name + info grow with the picture (same 26vw → 220px idea) ---------- */
+/* ---------- name + info (sizes come from the type scale in main.css) ---------- */
 .title {
-    font-size: clamp(26px, 4.4vw, 56px);
-    font-weight: 600;
-    line-height: 1.05;
-    letter-spacing: -0.02em;
     margin-bottom: clamp(8px, 1.2vw, 16px);
 }
 .location {
-    font-size: clamp(14px, 1.7vw, 20px);
+    font-family: var(--font-heading);
+    font-size: var(--fs-label);
     gap: clamp(6px, 0.8vw, 12px);
 }
 .work-status {
@@ -201,13 +198,14 @@ function animateHand() {
 }
 
 /* ---------- key words that light up when you hover the picture ---------- */
-.description h3 {
+.description p {
+    margin: 0;
     transition: color 0.4s ease;
 }
-.highlighted h3 {
+.highlighted p {
     color: var(--text-dark-secondary); /* the rest of the text steps back */
 }
-.light .highlighted h3 {
+.light .highlighted p {
     color: var(--text-light-secondary);
 }
 

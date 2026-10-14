@@ -1,9 +1,9 @@
 <template>
   <section class="project-slider" aria-labelledby="projectSliderTitle">
     <div class="container custom-container">
-      <p class="ps-eyebrow">Selected work</p>
-      <h2 id="projectSliderTitle" class="ps-title">Projects</h2>
-      <p class="ps-lead">
+      <p class="section-title">Selected work</p>
+      <h1 id="projectSliderTitle" class="ps-title">Projects</h1>
+      <p class="ps-lead lead-text">
         Websites I’ve designed for real clients - <strong>The projects are designed at my workplace næmt.nu.</strong> Click a project to visit the live site, or drag to browse.
       </p>
 
@@ -24,7 +24,7 @@
 
       <div class="ps-info">
         <div class="ps-info-text">
-          <div class="ps-counter">
+          <div class="ps-counter meta">
             <b>{{ pad(activeIndex + 1) }}</b> / {{ pad(items.length) }} · Webdesign
           </div>
           <Transition name="ps-swap" mode="out-in">
@@ -468,36 +468,15 @@ onBeforeUnmount(() => {
 
 /* ---------- heading ---------- */
 
-/* same pill as .section-title in the rest of the portfolio */
-.ps-eyebrow {
-  display: inline-block;
-  background: var(--border-dark);
-  color: var(--text-dark);
-  padding: 10px 20px;
-  border-radius: 8px;
-  font-size: 15px;
-  font-weight: 500;
-  margin: 0 0 20px;
-}
-.light .ps-eyebrow {
-  background: var(--border-light);
-  color: var(--text-light);
-}
-
+/* the pill, h1 and lead text get their look from main.css */
 .ps-title {
   margin: 0;
-  font-size: clamp(32px, 3.3vw, 50px);
-  line-height: 1.08;
-  letter-spacing: -0.03em;
-  font-weight: 600;
 }
 
 .ps-lead {
   margin: 16px 0 0;
   max-width: 60ch;
   color: var(--text-dark-secondary);
-  font-size: clamp(16px, 1.2vw, 18px);
-  line-height: 1.6;
 }
 .light .ps-lead {
   color: var(--text-light-secondary);
@@ -543,16 +522,10 @@ onBeforeUnmount(() => {
 
 .ps-counter {
   margin-bottom: 6px;
-  font-size: 14px;
-  font-weight: 500;
-  color: var(--text-dark-secondary);
   font-variant-numeric: tabular-nums;
 }
-.light .ps-counter {
-  color: var(--text-light-secondary);
-}
 .ps-counter b {
-  font-weight: 600;
+  font-weight: 700;
   color: var(--text-dark);
 }
 .light .ps-counter b {
@@ -561,8 +534,6 @@ onBeforeUnmount(() => {
 
 .ps-name {
   margin: 0;
-  font-size: clamp(20px, 2.4vw, 28px);
-  font-weight: 600;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -618,8 +589,9 @@ onBeforeUnmount(() => {
   border-radius: 8px;
   background: var(--text-dark);
   color: var(--bg-dark);
-  font-size: 15px;
-  font-weight: 600;
+  font-family: var(--font-heading);
+  font-size: var(--fs-label);
+  font-weight: 500;
   text-decoration: none;
   transition: background 0.2s ease;
 }

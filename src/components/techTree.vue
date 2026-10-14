@@ -70,7 +70,7 @@ const techStack = [
   color: var(--text-light);
 }
 .stack-title {
-  font-size: 16px;
+  font-size: var(--fs-label);
   font-weight: 500;
   color: var(--text-dark-secondary);
 }

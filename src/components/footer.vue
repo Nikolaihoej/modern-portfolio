@@ -164,35 +164,14 @@ function scrollToTop() {
   border-color: var(--border-light);
 }
 
-.section-title {
-  display: inline-block;
-  background: var(--border-dark);
-  color: var(--text-dark);
-  padding: 10px 20px;
-  border-radius: 8px;
-  font-size: 15px;
-  font-weight: 500;
-  margin: 0 0 20px;
-}
-.light .section-title {
-  background: var(--border-light);
-  color: var(--text-light);
-}
-
 .footer-cta h2 {
   margin: 0;
-  font-size: clamp(28px, 3.2vw, 44px);
-  line-height: 1.08;
-  letter-spacing: -0.03em;
-  font-weight: 600;
 }
 
 .cta-text {
   margin: 14px 0 0;
   max-width: 46ch;
   color: var(--text-dark-secondary);
-  font-size: 16px;
-  line-height: 1.6;
 }
 .light .cta-text {
   color: var(--text-light-secondary);
@@ -204,7 +183,8 @@ function scrollToTop() {
   align-items: center;
   gap: 8px;
   margin-top: 22px;
-  font-size: 14px;
+  font-family: var(--font-heading);
+  font-size: var(--fs-label);
   color: var(--text-dark-secondary);
 }
 .light .work-status {
@@ -257,7 +237,8 @@ function scrollToTop() {
   border: 1px solid var(--border-dark);
   border-radius: 8px;
   padding: 6px 6px 6px 16px;
-  font-size: 15px;
+  font-family: var(--font-heading);
+  font-size: var(--fs-label);
 }
 .light .email-copy {
   background: var(--bg-light);
@@ -274,7 +255,8 @@ function scrollToTop() {
   align-items: center;
   justify-content: center;
   gap: 8px;
-  font-size: 15px;
+  font-family: var(--font-heading);
+  font-size: var(--fs-label);
   font-weight: 500;
   text-decoration: none;
   border-radius: 8px;
@@ -299,7 +281,6 @@ function scrollToTop() {
   color: var(--text-dark);
   border-color: var(--border-dark);
   padding: 8px 12px;
-  font-size: 14px;
 }
 .light .btn-ghost {
   background: var(--content-bg-light);
@@ -320,6 +301,7 @@ function scrollToTop() {
 
 .brand {
   margin: 0 0 14px;
+  font-family: var(--font-heading);
   font-size: 32px;
   font-weight: 700;
   letter-spacing: -0.02em;
@@ -330,18 +312,18 @@ function scrollToTop() {
   margin: 0;
   max-width: 34ch;
   color: var(--text-dark-secondary);
-  font-size: 15px;
-  line-height: 1.6;
 }
 .light .about-text {
   color: var(--text-light-secondary);
 }
 
+/* same look as .meta in main.css */
 .col-title {
   margin: 0 0 14px;
-  font-size: 13px;
+  font-family: var(--font-heading);
+  font-size: var(--fs-meta);
   font-weight: 500;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--text-dark-secondary);
 }
@@ -362,7 +344,8 @@ function scrollToTop() {
   gap: 10px;
   color: var(--text-dark);
   text-decoration: none;
-  font-size: 15px;
+  font-family: var(--font-heading);
+  font-size: var(--fs-label);
 }
 .light .footer-links a {
   color: var(--text-light);
@@ -382,15 +365,16 @@ function scrollToTop() {
 
 .clock {
   margin: 0 0 8px;
-  font-size: 28px;
-  font-weight: 600;
-  letter-spacing: -0.02em;
+  font-family: var(--font-heading);
+  font-size: var(--fs-h3);
+  font-weight: 500;
   line-height: 1;
   font-variant-numeric: tabular-nums;
 }
 .clock-sub {
   margin: 0;
-  font-size: 14px;
+  font-family: var(--font-heading);
+  font-size: var(--fs-label);
   color: var(--text-dark-secondary);
 }
 .light .clock-sub {
@@ -405,7 +389,8 @@ function scrollToTop() {
   gap: 16px;
   border-top: 1px solid var(--border-dark);
   padding: 20px 4px 0;
-  font-size: 14px;
+  font-family: var(--font-heading);
+  font-size: var(--fs-label);
   color: var(--text-dark-secondary);
 }
 .light .footer-bottom {

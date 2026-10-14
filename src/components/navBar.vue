@@ -24,19 +24,14 @@
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { faEnvelope, faMoon, faSun } from '@fortawesome/free-solid-svg-icons'
 import { faGithub, faLinkedin } from '@fortawesome/free-brands-svg-icons'
-import { ref, onMounted } from 'vue'
+import { ref } from 'vue'
 
 const isDark = ref(true)
 
 function toggleTheme() {
   isDark.value = !isDark.value
   document.body.classList.toggle('light', !isDark.value)
-  document.body.classList.toggle('dark', isDark.value)
 }
-
-onMounted(() => {
-  document.body.classList.add('dark')
-})
 </script>
 
 
@@ -64,7 +59,9 @@ nav a, nav button {
     background: none;
     border: none;
     color: var(--text-dark-secondary);
-    font-size: 1.2rem;
+    font-family: var(--font-heading);
+    font-size: var(--fs-h4);
+    font-weight: 500;
     transition: color 0.2s ease-in-out;
 }
 .light nav a, .light nav button {
@@ -95,6 +92,7 @@ nav a:hover, nav button:hover {
 }
 
 .logo {
+    font-family: var(--font-heading);
     font-size: 32px;
     font-weight: 700;
 }

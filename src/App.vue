@@ -1,5 +1,5 @@
 <template>
-  <div id="app" :class="appClasses">
+  <div id="app">
     <navBar />
     <router-view v-slot="{ Component }">
       <transition name="fade" mode="out-in">
@@ -11,22 +11,10 @@
 
 <script setup>
 import navBar from './components/navBar.vue'
-import { useRoute } from 'vue-router'
-import { computed } from 'vue'
-
-// replace with your real reactive theme state
-const isLight = false
-const route = useRoute()
-
-const appClasses = computed(() => ({
-  light: isLight,
-  'no-gradient': !!route.meta.noGradient
-}))
+// the theme (.light) is set on <body> by the button in navBar.vue
 </script>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
-
 #app {
   position: relative;
   z-index: 1;

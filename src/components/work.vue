@@ -91,21 +91,6 @@ onBeforeUnmount(() => {
     margin-right: auto;
 }
 
-.section-title {
-    background: var(--border-dark);
-    color: var(--text-dark);
-    padding: 12px 24px;
-    border-radius: 8px;
-    font-size: 16px;
-    font-weight: 500;
-    display: inline-block;
-    margin-bottom: 16px;
-}
-.light .section-title {
-    background: var(--border-light);
-    color: var(--text-light);
-}
-
 .timeline-container {
   position: relative;
   background: var(--content-bg-dark);
@@ -170,7 +155,9 @@ onBeforeUnmount(() => {
     color: var(--text-dark-secondary);
     background: none;
     border: none;
-    font: inherit;
+    font-family: var(--font-heading);
+    font-size: var(--fs-label);
+    font-weight: 500;
     transition: color 0.3s;
 }
 .light .tab {
@@ -179,7 +166,7 @@ onBeforeUnmount(() => {
 
 .tab.active {
     color: var(--text-dark);
-    font-weight: 600;
+    font-weight: 700;
 }
 .light .tab.active {
     color: var(--text-light);
@@ -257,8 +244,13 @@ onBeforeUnmount(() => {
     border-radius: 50%;
 }
 
+/* same look as .meta in main.css */
 .timeline-date {
-    font-size: 12px;
+    font-family: var(--font-heading);
+    font-size: var(--fs-meta);
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
     color: var(--text-dark-secondary);
 }
 .light .timeline-date {
@@ -266,12 +258,15 @@ onBeforeUnmount(() => {
 }
 
 .timeline-company {
-    font-weight: 600;
+    font-family: var(--font-heading);
+    font-size: var(--fs-h4);
+    font-weight: 500;
+    line-height: 1.35;
     margin: 3px 0;
 }
 
 .timeline-role {
-    font-size: 13px;
+    line-height: 1.45;
     padding-right: 10px;
     color: var(--text-dark-secondary);
 }

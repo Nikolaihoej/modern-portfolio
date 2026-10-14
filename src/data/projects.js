@@ -8,18 +8,7 @@ import diningbymanan from '../assets/images/projects/diningbymanan.png'
 import masala from '../assets/images/projects/masala.png'
 import tandooribbq from '../assets/images/projects/tandooribbq.png'
 
-const hoverPalette = [
-  'rgb(156, 83, 83)',
-  'rgb(83, 127, 156)',
-  'rgb(98, 156, 83)',
-  'rgb(123, 83, 156)'
-]
-
-const getHoverColorById = (id) => {
-  return hoverPalette[(id * 17 + 5) % hoverPalette.length]
-}
-
-const rawProjects = [
+export const projects = [
  {
     id: 1,
     title: 'Webdesign - paprika',
@@ -75,8 +64,3 @@ const rawProjects = [
     link: 'https://echovice.com/'
   }
 ]
-
-export const projects = rawProjects.map((project) => ({
-  ...project,
-  hoverColor: getHoverColorById(project.id)
-}))
