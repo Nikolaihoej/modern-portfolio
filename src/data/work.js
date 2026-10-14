@@ -6,6 +6,7 @@ import naemt from '../assets/images/companies/naemtwhite.webp'
 export const workTimeline = [
   {
     icon: naemt,
+    whiteLogo: true, // white logo – shown in black in light theme (see work.vue)
     date: "Apr 2026 - now",
     company: "naemt.nu",
     role: "Webdesigner & webdeveloper",

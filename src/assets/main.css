@@ -37,27 +37,49 @@ html body.light {
   --fs-label: 15px;                       /* piller, knapper, links */
   --fs-meta: 13px;                        /* små versaltekster: datoer, kolonnetitler, 01 / 09 */
 
+  /* ---------- bevægelse ---------- */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1); /* hurtig start, blød landing */
+  --dur-fast: 150ms;                      /* små ting, fx hover */
+  --dur: 250ms;                           /* sideskift, knapper */
+  --dur-slow: 600ms;                      /* sektioner der glider ind */
+
+  /* ---------- løft ved hover (elevation) ---------- */
+  --lift: -3px;                           /* kort løfter sig lidt */
+  --lift-sm: -2px;                        /* knapper løfter sig endnu mindre */
+  /* skyggen er tæt og blød – ingen glød. Mørkt tema skal have mere sort for at kunne ses */
+  --shadow-lift: 0 8px 20px -8px rgba(0, 0, 0, 0.6), 0 2px 6px -2px rgba(0, 0, 0, 0.4);
+  --shadow-lift-sm: 0 4px 10px -4px rgba(0, 0, 0, 0.5);
+
   --bg-dark: #0a0a0a;
-  --bg-light: #FAFAFA;
+  --bg-light: #E8E8EB;            /* light theme: soft grey, not white */
   --content-bg-dark: #1A1A1A;
-  --content-bg-light: #E5E5E5;
+  --content-bg-light: #F4F4F6;    /* cards are lighter than the page – like in dark theme */
   --text-dark: #FAFAFA;
   --text-dark-secondary: #AAAAAA;
-  --text-light: #0A0A0A;
-  --text-light-secondary: #737373;
+  --text-light: #111113;
+  --text-light-secondary: #5C5C66;
   --border-dark: #2A2A2A;
   --border-dark-hover: #3A3A3A;
-  --border-light: #D4D4D4;
-  --border-light-hover: #C4C4C4;
+  --border-light: #D4D4D9;
+  --border-light-hover: #C1C1C8;
+
+  /* accent colour (ring, pulse dot, highlights): green in dark theme,
+     blue in light theme – the green has the same lightness and strength as the blue */
+  --accent-dark: #00a95c;
+  --accent-light: #168bff;
 
   /* app-level dynamic vars (dark defaults) */
   --app-bg: var(--bg-dark);
   --app-text: var(--text-dark);
+  --accent: var(--accent-dark);
 }
 
 .light {
   --app-bg: var(--bg-light);
   --app-text: var(--text-light);
+  --accent: var(--accent-light);
+  --shadow-lift: 0 8px 20px -8px rgba(17, 17, 19, 0.18), 0 2px 6px -2px rgba(17, 17, 19, 0.08);
+  --shadow-lift-sm: 0 4px 10px -4px rgba(17, 17, 19, 0.2);
 }
 
 /* The glow at the top of the page.
@@ -75,8 +97,12 @@ html body.light {
   color: var(--app-text);
   transition: --glow-color 3s ease; /* a slow, gentle shift */
 }
+/* while the theme changes (navBar.vue) the glow switches at once, together with everything else */
+.theme-switching #app {
+  transition: none;
+}
 .light #app {
-  --glow-color: rgba(108, 162, 196, 0.74);
+  --glow-color: rgba(108, 162, 196, 0.55);
 }
 
 /* when the hero picture is "on", the glow slowly gets a little brighter */
@@ -84,7 +110,7 @@ html body.light {
   --glow-color: rgba(36, 78, 60, 0.9);
 }
 .light.hero-active #app {
-  --glow-color: rgba(128, 182, 214, 0.9);
+  --glow-color: rgba(128, 182, 214, 0.7);
 }
 
 /* =========================================================
@@ -135,6 +161,7 @@ html body button {
   padding: 12px 20px;
   border-radius: 8px;
   margin: 0 0 20px;
+  overflow: hidden; /* the scrambling signs (ScrambleText) never stick out of the pill */
 }
 .light .section-title {
   background: var(--border-light);
@@ -152,4 +179,39 @@ html body button {
 }
 .light .meta {
   color: var(--text-light-secondary);
+}
+
+/* =========================================================
+   Bevægelse
+   ========================================================= */
+
+/* v-reveal (src/directives/reveal.js): glides in the first time it is seen */
+[data-reveal="fade"] {
+  opacity: 0;
+  transform: translateY(14px);
+  transition:
+    opacity var(--dur-slow) var(--ease-out),
+    transform var(--dur-slow) var(--ease-out);
+  transition-delay: calc(var(--i, 0) * 40ms); /* cards in a row come one after another */
+}
+[data-reveal="fade"].is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* theme change (navBar.vue): the browser's own fade is turned off,
+   because the new theme spreads out as a circle from the button instead */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+/* everything stands still for people who have turned motion off */
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal="fade"] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
 }

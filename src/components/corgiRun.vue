@@ -29,7 +29,7 @@ import { corgiSprites } from '../data/corgiSprites.js'
 /* ---------- colours (Chrome's offline game: day + night mode) ---------- */
 const COLORS = {
   dark: { bg: '#1a1a1a', ink: '#acacac', cloud: '#3a3a3a' },  // night mode
-  light: { bg: '#ffffff', ink: '#535353', cloud: '#dadada' }, // day mode
+  light: { bg: '#F4F4F6', ink: '#52525A', cloud: '#CFCFD5' }, // day mode – same grey as the cards (--content-bg-light)
 }
 
 /* ---------- refs shown in the template ---------- */
@@ -439,8 +439,8 @@ canvas {
 .light .game-card::after {
   background: linear-gradient(
     to bottom,
-    rgba(250, 250, 250, 0) 60%,
-    rgba(250, 250, 250, 0.7) 84%,
+    transparent 60%,
+    color-mix(in srgb, var(--bg-light) 70%, transparent) 84%,
     var(--bg-light) 100%
   );
 }
@@ -463,7 +463,7 @@ canvas {
   pointer-events: none;
 }
 .light .score-chip {
-  background: rgba(250, 250, 250, 0.85);
+  background: color-mix(in srgb, var(--content-bg-light) 85%, transparent);
   border-color: var(--border-light);
   color: var(--text-light-secondary);
 }

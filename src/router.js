@@ -38,14 +38,14 @@ const router = createRouter({
     // Links like /#contact still scroll to their section.
     if (from === START_LOCATION && !to.hash) return { top: 0 }
 
-    // wait for the fade between pages in App.vue (0.5s) before scrolling,
+    // wait for the old page to fade out in App.vue (0.2s) before scrolling,
     // so you don't see the old page jump to the top while it fades out
     return new Promise((resolve) => {
       setTimeout(() => {
         if (savedPosition) resolve(savedPosition) // back/forward: return to where you were
         else if (to.hash) resolve({ el: to.hash }) // links like /#contact
         else resolve({ top: 0 }) // a normal link: start at the top
-      }, 500)
+      }, 200)
     })
   },
 })

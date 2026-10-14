@@ -5,7 +5,7 @@
                 <!-- the size is set once with --avatar-size (see the CSS) – ring and image follow it -->
                 <div class="avatar">
                     <svg class="profile-border" viewBox="0 0 100 100">
-                        <circle cx="50" cy="50" r="46" stroke="#168bff" stroke-width="20" fill="none" :stroke-dashoffset="borderOffset" stroke-dasharray="289" style="transition: stroke-dashoffset 0.6s ease-in-out;"/>
+                        <circle class="ring" cx="50" cy="50" r="46" stroke-width="20" fill="none" :stroke-dashoffset="borderOffset" stroke-dasharray="289" style="transition: stroke-dashoffset 0.6s ease-in-out;"/>
                     </svg>
                     <img class="profile-img" :src="filled ? meGlassesImg : meImg" alt="Hero Image" />
                 </div>
@@ -45,7 +45,7 @@ const borderOffset = ref(289)
 const animating = ref(false)
 let fillTimeout = null
 
-// The highlight follows the blue circle: when the circle is filled (glasses on),
+// The highlight follows the circle: when the circle is filled (glasses on),
 // the key words stay highlighted – also after the mouse leaves.
 // Hover again and the circle empties and the highlight goes away.
 const isOn = computed(() => borderOffset.value === 0)
@@ -128,6 +128,10 @@ function animateHand() {
     width: 100%;
     height: 100%;
     overflow: visible;
+}
+/* the ring uses the accent colour: green in dark theme, blue in light theme */
+.ring {
+    stroke: var(--accent);
 }
 
 .profile-img {
@@ -214,8 +218,8 @@ function animateHand() {
     padding: 0 3px;
     margin: 0 -3px; /* the padding doesn't push the text apart */
     border-radius: 4px;
-    /* a blue "marker" that sweeps in from the left */
-    background: linear-gradient(#168bff, #168bff) no-repeat left center / 0% 100%;
+    /* a "marker" in the accent colour that sweeps in from the left */
+    background: linear-gradient(var(--accent), var(--accent)) no-repeat left center / 0% 100%;
     -webkit-box-decoration-break: clone;
     box-decoration-break: clone;
     transition:
@@ -254,17 +258,17 @@ function animateHand() {
     height: 8px;
     flex: 0 0 8px;
     border-radius: 50%;
-    background: #168bff;
-    box-shadow: 0 0 0 0 rgb(22 139 255 / 60%);
+    background: var(--accent);
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 60%, transparent);
     animation: pulse 1.8s infinite;
 }
 
 @keyframes pulse {
     70% {
-        box-shadow: 0 0 0 6px rgb(22 139 255 / 0%);
+        box-shadow: 0 0 0 6px transparent;
     }
     100% {
-        box-shadow: 0 0 0 0 rgb(22 139 255 / 0%);
+        box-shadow: 0 0 0 0 transparent;
     }
 }
 

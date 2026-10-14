@@ -1,8 +1,8 @@
 <template>
     <div class="container custom-container pb-5">
-        <h2 class="section-title">{{ sectionTitle }}</h2>
+        <h2 class="section-title"><ScrambleText :text="sectionTitle" /></h2>
         <div class="row justify-content-center">
-            <div class="col">
+            <div class="col" v-reveal>
                 <div class="tabs">
                     <!-- the light "pill" that slides behind the active tab -->
                     <span class="tab-indicator" :style="{ transform: `translateX(${activeIndex * 100}%)` }"></span>
@@ -23,10 +23,11 @@
                     <!-- the new list slides down into place while the old one slides down and out -->
                     <Transition name="slide-down">
                         <div :key="activeTab" :ref="setPanel" class="panel">
-                            <div class="timeline">
+                            <!-- the line draws itself and the logos pop in when the list is seen (v-reveal:draw) -->
+                            <div class="timeline" v-reveal:draw>
                                 <div v-for="(item, index) in currentTab.items" :key="index" class="timeline-item">
-                                    <div class="timeline-icon">
-                                        <img :src="item.icon" alt="Company Logo" class="timeline-img" />
+                                    <div class="timeline-icon" :style="{ '--i': index }">
+                                        <img :src="item.icon" alt="Company Logo" class="timeline-img" :class="{ 'white-logo': item.whiteLogo }" />
                                     </div>
                                     <div class="timeline-date">{{ item.date }}</div>
                                     <div class="timeline-company">{{ item.company }}</div>
@@ -45,6 +46,7 @@
 import { ref, computed, watch, nextTick, onMounted, onBeforeUnmount } from "vue";
 import { educationTimeline } from "@/data/education.js";
 import { workTimeline } from '../data/work.js'
+import ScrambleText from './scrambleText.vue'
 
 const tabs = [
   { key: "work", label: "Work", items: workTimeline },
@@ -206,9 +208,16 @@ onBeforeUnmount(() => {
     bottom: 0;
     width: 2px;
     background: var(--border-dark-hover);
+    /* draws itself from the top when the list is seen (.is-visible comes from v-reveal:draw) */
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: transform 900ms var(--ease-out);
 }
 .light .timeline::before {
     background: var(--border-light-hover);
+}
+.timeline.is-visible::before {
+    transform: scaleY(1);
 }
 
 .timeline-item {
@@ -232,10 +241,23 @@ onBeforeUnmount(() => {
     display: flex;
     justify-content: center;
     align-items: center;
+    /* the logos pop in one by one, following the line */
+    opacity: 0;
+    transform: scale(0.6);
+    transition: transform 400ms var(--ease-out), opacity 300ms ease;
+    transition-delay: calc(150ms + var(--i, 0) * 120ms);
+}
+.timeline.is-visible .timeline-icon {
+    opacity: 1;
+    transform: none;
 }
 .light .timeline-icon {
     background: var(--content-bg-light);
     border: 2px solid var(--border-light);
+}
+/* white logos (fx næmt) turn black in light theme, so they can be seen on the light circle */
+.light .white-logo {
+    filter: brightness(0);
 }
 .timeline-img {
     width: 100%;
@@ -277,6 +299,8 @@ onBeforeUnmount(() => {
 @media (prefers-reduced-motion: reduce) {
     .tab-indicator,
     .timeline-container,
+    .timeline::before,
+    .timeline-icon,
     .slide-down-enter-active,
     .slide-down-leave-active {
         transition: none;

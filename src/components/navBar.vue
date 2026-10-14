@@ -24,13 +24,42 @@
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { faEnvelope, faMoon, faSun } from '@fortawesome/free-solid-svg-icons'
 import { faGithub, faLinkedin } from '@fortawesome/free-brands-svg-icons'
-import { ref } from 'vue'
+import { ref, nextTick } from 'vue'
 
 const isDark = ref(true)
 
-function toggleTheme() {
-  isDark.value = !isDark.value
-  document.body.classList.toggle('light', !isDark.value)
+function toggleTheme(event) {
+  const body = document.body
+  const change = async () => {
+    body.classList.add('theme-switching') // the glow skips its slow 3s fade, so it changes with the theme
+    isDark.value = !isDark.value
+    document.body.classList.toggle('light', !isDark.value)
+    await nextTick() // let Vue swap the sun/moon icon before the new theme is shown
+  }
+
+  // the slow glow fade is turned back on when the theme change is done (it is still used by the hero)
+  const done = () => body.classList.remove('theme-switching')
+
+  // browsers without View Transitions, and people who have turned motion off, just switch
+  if (!document.startViewTransition || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    change().then(() => requestAnimationFrame(() => requestAnimationFrame(done)))
+    return
+  }
+
+  // the new theme spreads out as a circle from the button
+  const button = event.currentTarget.getBoundingClientRect()
+  const x = button.left + button.width / 2
+  const y = button.top + button.height / 2
+  const radius = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y)) // far enough to cover the screen
+
+  const transition = document.startViewTransition(change)
+  transition.finished.finally(done)
+  transition.ready.then(() => {
+    document.documentElement.animate(
+      { clipPath: [`circle(0px at ${x}px ${y}px)`, `circle(${radius}px at ${x}px ${y}px)`] },
+      { duration: 550, easing: 'cubic-bezier(0.22, 1, 0.36, 1)', pseudoElement: '::view-transition-new(root)' }
+    )
+  })
 }
 </script>
 

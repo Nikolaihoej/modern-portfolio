@@ -1,7 +1,7 @@
 <template>
   <section class="project-slider" aria-labelledby="projectSliderTitle">
     <div class="container custom-container">
-      <p class="section-title">Selected work</p>
+      <p class="section-title"><ScrambleText text="Selected work" /></p>
       <h1 id="projectSliderTitle" class="ps-title">Projects</h1>
       <p class="ps-lead lead-text">
         Websites I’ve designed for real clients - <strong>The projects are designed at my workplace næmt.nu.</strong> Click a project to visit the live site, or drag to browse.
@@ -61,6 +61,7 @@ import {
   Mesh, TextureLoader, Vector2, Vector3, LinearFilter,
 } from 'three'
 import { wind } from '../particleWind.js'
+import ScrambleText from './scrambleText.vue'
 
 const props = defineProps({
   projects: { type: Array, required: true },
@@ -89,7 +90,7 @@ const clamp = (v, min, max) => Math.min(max, Math.max(min, v))
 
 // background colours the side cards fade towards (same as --bg-dark / --bg-light)
 const BG_DARK = new Vector3(0.039, 0.039, 0.039) // #0a0a0a
-const BG_LIGHT = new Vector3(0.98, 0.98, 0.98)   // #FAFAFA
+const BG_LIGHT = new Vector3(0.91, 0.91, 0.922)  // #E8E8EB
 
 /* ------------------------------------------------------------------
    Shaders – this is where the "rubber" effect lives

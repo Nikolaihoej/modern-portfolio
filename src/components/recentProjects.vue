@@ -1,8 +1,8 @@
 <template>
     <div class="container custom-container mb-5">
-        <h2 class="section-title">Recent projects</h2>
+        <h2 class="section-title"><ScrambleText text="Recent projects" /></h2>
         <div class="row justify-content-center">
-            <div v-for="project in recentProjects" :key="project.id" class="col-md-6 mb-4">
+            <div v-for="(project, index) in recentProjects" :key="project.id" class="col-md-6 mb-4" v-reveal="index">
                 <router-link :to="`/projects`" class="project-link">
                     <div class="project-card">
                         <div class="img-wrapper">
@@ -23,6 +23,7 @@
 
 <script setup>
 import { projects } from '../data/projects.js'
+import ScrambleText from './scrambleText.vue'
 
 // the two newest projects – "Webdesign - " is shown as a small label instead
 const recentProjects = projects.slice(0, 2).map((project) => ({
@@ -53,12 +54,9 @@ const recentProjects = projects.slice(0, 2).map((project) => ({
 }
 
 .project-card:hover {
-    transform: translateY(-4px);
+    transform: translateY(var(--lift));
     border-color: var(--border-dark-hover);
-    box-shadow: 
-        0 0 30px rgba(255, 255, 255, 0.1),
-        0 0 60px rgba(255, 255, 255, 0.05),
-        0 10px 30px rgba(0, 0, 0, 0.5);
+    box-shadow: var(--shadow-lift); /* see main.css */
 }
 .light .project-card:hover {
     border-color: var(--border-light-hover);

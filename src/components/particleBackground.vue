@@ -60,7 +60,7 @@ class Particle {
   draw() {
     const alpha = this.opacity * (0.7 + 0.3 * Math.sin(this.twinkle))
     ctx.fillStyle = isLight.value
-      ? `rgba(162,200,255,${alpha})`
+      ? `rgba(50,78,128,${alpha * 0.75})` // dark blue-grey, so the stars can be seen on the light grey page
       : `rgba(255,255,255,${alpha})`
 
     // når hjulet drejer hurtigt, trækkes stjernerne ud til streger

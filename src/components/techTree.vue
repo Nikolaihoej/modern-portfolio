@@ -1,10 +1,17 @@
 <template>
   <div class="container custom-container mb-5">
-    <h2 class="section-title">Technology Stack</h2>
+    <h2 class="section-title"><ScrambleText text="Technology Stack" /></h2>
     <div class="row g-2 justify-content-center">
-      <div v-for="tech in techStack" :key="tech.title" class="col-3 d-flex">
-        <div class="stack-card flex-fill">
-          <!-- --brand is the company's own colour, shown when you hover the card -->
+      <div v-for="(tech, index) in techStack" :key="tech.title" class="col-3 d-flex" v-reveal="index">
+        <!-- mouse: lights up while you hover. Phone: tap to light up, tap again to turn off -->
+        <div
+          class="stack-card flex-fill"
+          :class="{ 'is-active': activeTech === tech.title }"
+          @pointerenter="onEnter($event, tech.title)"
+          @pointerleave="onLeave($event)"
+          @pointerup="onTap($event, tech.title)"
+        >
+          <!-- --brand is the company's own colour, shown when the card is active -->
           <div class="stack-icon" :style="{ '--brand': tech.color }">
             <!-- Figma has five colours, so it is drawn as its own SVG instead of a Font Awesome icon -->
             <svg v-if="tech.title === 'Figma'" class="figma" viewBox="0 0 38 57" aria-hidden="true">
@@ -24,7 +31,9 @@
 </template>
 
 <script setup>
+import { ref } from 'vue'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import ScrambleText from './scrambleText.vue'
 import { faVuejs, faHtml5, faCss3Alt, faJs, faNodeJs } from '@fortawesome/free-brands-svg-icons'
 import { faLeaf, faDatabase } from '@fortawesome/free-solid-svg-icons'
 
@@ -36,8 +45,23 @@ const techStack = [
   { title: 'Figma' }, // its colours are set in the CSS (.figma)
   { icon: faNodeJs, title: 'Node.js', color: '#5FA04E' },
   { icon: faLeaf, title: 'MongoDB', color: '#00ED64' },
-  { icon: faDatabase, title: 'SQL', color: '#168bff' }, // SQL isn't a company – uses the site's blue
+  { icon: faDatabase, title: 'SQL', color: 'var(--accent)' }, // SQL isn't a company – uses the site's accent colour
 ];
+
+// The card that is lit up. Phones have no hover (iPhone only shows it on a long press),
+// so instead of :hover the card gets the class .is-active – from the mouse or from a tap.
+const activeTech = ref(null)
+
+function onEnter(event, title) {
+  if (event.pointerType === 'mouse') activeTech.value = title
+}
+function onLeave(event) {
+  if (event.pointerType === 'mouse') activeTech.value = null
+}
+function onTap(event, title) {
+  if (event.pointerType === 'mouse') return
+  activeTech.value = activeTech.value === title ? null : title // tap the same card again to turn it off
+}
 </script>
 
 <style scoped>
@@ -62,12 +86,13 @@ const techStack = [
   background: var(--content-bg-light);
   border: 1px solid var(--border-light);
 }
-.stack-card:hover {
+.stack-card.is-active {
   border-color: var(--border-dark-hover);
-  transform: translateY(-4px);
+  transform: translateY(var(--lift));
   background: var(--border-dark-hover);
+  box-shadow: var(--shadow-lift); /* see main.css */
 }
-.light .stack-card:hover {
+.light .stack-card.is-active {
   border-color: var(--border-light-hover);
   background: var(--border-light-hover);
 }
@@ -79,12 +104,12 @@ const techStack = [
 .light .stack-icon {
   color: var(--text-light);
 }
-/* hover: the icon gets the company's colour */
-.stack-card:hover .stack-icon {
+/* active (hover or tap): the icon gets the company's colour */
+.stack-card.is-active .stack-icon {
   color: var(--brand);
 }
 
-/* Figma: same size as the other icons, grey until hover, then its five colours */
+/* Figma: same size as the other icons, grey until active, then its five colours */
 .figma {
   height: 1em;
   width: auto;
@@ -94,11 +119,11 @@ const techStack = [
   fill: currentColor;
   transition: fill 0.3s ease;
 }
-.stack-card:hover .figma .f-red    { fill: #F24E1E; }
-.stack-card:hover .figma .f-salmon { fill: #FF7262; }
-.stack-card:hover .figma .f-purple { fill: #A259FF; }
-.stack-card:hover .figma .f-blue   { fill: #1ABCFE; }
-.stack-card:hover .figma .f-green  { fill: #0ACF83; }
+.stack-card.is-active .figma .f-red    { fill: #F24E1E; }
+.stack-card.is-active .figma .f-salmon { fill: #FF7262; }
+.stack-card.is-active .figma .f-purple { fill: #A259FF; }
+.stack-card.is-active .figma .f-blue   { fill: #1ABCFE; }
+.stack-card.is-active .figma .f-green  { fill: #0ACF83; }
 .stack-title {
   font-size: var(--fs-label);
   font-weight: 500;

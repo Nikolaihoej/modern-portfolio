@@ -1,7 +1,7 @@
 <template>
   <section ref="root" class="container custom-container usps mb-5" aria-label="Key numbers">
     <div class="row g-2">
-      <div v-for="(usp, i) in usps" :key="usp.label" class="col-md-4 d-flex">
+      <div v-for="(usp, i) in usps" :key="usp.label" class="col-md-4 d-flex" v-reveal="i">
         <div class="usp-card flex-fill">
           <p class="usp-number">
             <!-- the counting number is only for the eye – screen readers get the final number -->

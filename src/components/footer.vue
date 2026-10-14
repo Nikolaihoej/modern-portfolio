@@ -2,10 +2,10 @@
   <footer class="site-footer">
     <div class="container custom-container">
 
-      <!-- 1. Contact card -->
-      <section class="footer-cta" id="contact" aria-labelledby="footerCtaTitle">
+      <!-- 1. Contact card – the label sits above the card, like the other sections -->
+      <p class="section-title"><ScrambleText text="Contact" /></p>
+      <section class="footer-cta" id="contact" aria-labelledby="footerCtaTitle" v-reveal>
         <div>
-          <p class="section-title">Contact</p>
           <h2 id="footerCtaTitle">Let's have a chat ☕️</h2>
           <p class="cta-text">
             I design and build websites that are easy to use and good to look at.
@@ -89,6 +89,7 @@
 <script setup>
 import { ref, onMounted, onBeforeUnmount } from 'vue'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import ScrambleText from './scrambleText.vue'
 import { faEnvelope, faArrowUp, faArrowRight } from '@fortawesome/free-solid-svg-icons'
 import { faGithub, faLinkedin } from '@fortawesome/free-brands-svg-icons'
 
@@ -208,16 +209,16 @@ function scrollToTop() {
   height: 8px;
   flex: 0 0 8px;
   border-radius: 50%;
-  background: #168bff;
-  box-shadow: 0 0 0 0 rgb(22 139 255 / 60%);
+  background: var(--accent);
+  box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 60%, transparent);
   animation: pulse 1.8s infinite;
 }
 @keyframes pulse {
   70% {
-    box-shadow: 0 0 0 6px rgb(22 139 255 / 0%);
+    box-shadow: 0 0 0 6px transparent;
   }
   100% {
-    box-shadow: 0 0 0 0 rgb(22 139 255 / 0%);
+    box-shadow: 0 0 0 0 transparent;
   }
 }
 
@@ -273,8 +274,8 @@ function scrollToTop() {
   color: var(--bg-light);
 }
 .btn-primary:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  transform: translateY(var(--lift-sm));
+  box-shadow: var(--shadow-lift-sm); /* see main.css */
 }
 .btn-ghost {
   background: var(--content-bg-dark);
